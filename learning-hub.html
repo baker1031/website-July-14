@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning Hub | Property Exchange</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="navigation.js" defer></script>
+  <script src="footer.js" defer></script>
+  <style>
+    :root { }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:92px; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:"Proxima Nova","Avenir Next",Avenir,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    a,button { font:inherit; }
+    button { cursor:pointer; }
+    .page { margin:0; max-width:none; padding:0 clamp(22px,5vw,76px) 100px; width:100%; }
+    .hub-hero { border-bottom:1px solid var(--line); display:flex; gap:34px; justify-content:space-between; padding:54px 0 42px; }
+    .hub-hero-copy { max-width:820px; }
+    .eyebrow { color:var(--blue); font-size:11px; font-weight:400; letter-spacing:.16em; margin:0 0 15px; text-transform:uppercase; }
+    h1 { font-size:clamp(40px,5.2vw,68px); font-weight:500; letter-spacing:normal; line-height:.96; margin:0; max-width:850px; }
+    .hero-description { color:var(--muted); font-size:17px; line-height:1.6; margin:22px 0 0; max-width:720px; }
+    .hero-note { align-self:end; border-left:3px solid var(--blue); color:var(--muted); font-size:12px; line-height:1.5; max-width:220px; padding-left:14px; }
+    .hub-layout { align-items:start; display:grid; gap:32px; grid-template-columns:minmax(240px,285px) minmax(0,1fr); padding-top:32px; }
+    .hub-rail { position:sticky; top:92px; }
+    .rail-toggle { align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:7px; color:var(--ink); display:none; font-size:13px; font-weight:600; justify-content:space-between; padding:12px 14px; width:100%; }
+    .rail-toggle span:last-child { color:var(--blue); font-size:18px; line-height:1; }
+    .rail-panel { display:block; }
+    .rail-heading { align-items:baseline; display:flex; justify-content:space-between; margin-bottom:12px; }
+    .rail-heading h2 { font-size:16px; font-weight:600; margin:0; }
+    .rail-heading span { color:var(--muted); font-size:11px; }
+    .category-list { border-bottom:1px solid var(--line); display:grid; gap:2px; list-style:none; margin:0 0 18px; padding:0 0 18px; }
+    .content-type-list { border-bottom:1px solid var(--line); display:grid; gap:2px; list-style:none; margin:0 0 18px; padding:0 0 18px; }
+    .category-button { background:transparent; border:0; border-left:3px solid transparent; color:var(--muted); font-size:13px; padding:10px 12px; text-align:left; width:100%; }
+    .category-button:hover { background:rgba(76,142,255,.06); color:var(--ink); }
+    .category-button.is-active { background:rgba(76,142,255,.1); border-left-color:var(--blue); color:var(--ink); font-weight:600; }
+    .content-type-button { background:transparent; border:0; border-left:3px solid transparent; color:var(--muted); font-size:13px; padding:10px 12px; text-align:left; width:100%; }
+    .content-type-button:hover { background:rgba(76,142,255,.06); color:var(--ink); }
+    .content-type-button.is-active { background:rgba(76,142,255,.1); border-left-color:var(--blue); color:var(--ink); font-weight:600; }
+    .article-list { display:grid; gap:8px; }
+    .article-link { background:transparent; border:1px solid transparent; border-radius:6px; color:var(--muted); display:block; padding:11px 12px; text-align:left; width:100%; }
+    .article-link:hover { background:var(--surface); color:var(--ink); }
+    .article-link.is-active { background:var(--surface); border-color:var(--line); color:var(--ink); }
+    .article-link strong { display:block; font-size:13px; font-weight:600; line-height:1.25; }
+    .article-link span { color:var(--muted); display:block; font-size:10px; margin-top:5px; }
+    .article-view { background:#fff; border:1px solid var(--line); border-radius:8px; min-width:0; padding:clamp(24px,4vw,52px); }
+    .article-header { border-bottom:1px solid var(--line); padding-bottom:28px; }
+    .article-kicker { color:var(--blue); font-size:11px; font-weight:400; letter-spacing:.14em; margin:0 0 14px; text-transform:uppercase; }
+    .article-header h2 { font-size:clamp(28px,3.5vw,46px); font-weight:500; letter-spacing:normal; line-height:1; margin:0; max-width:none; }
+    .article-meta { color:var(--muted); display:flex; flex-wrap:wrap; font-size:12px; gap:8px 18px; margin-top:18px; }
+    .placeholder-badge { background:rgba(76,142,255,.1); border:1px solid rgba(76,142,255,.26); border-radius:5px; color:var(--blue); display:inline-flex; font-size:10px; font-weight:700; letter-spacing:.05em; padding:5px 8px; text-transform:uppercase; }
+    .article-byline { align-items:stretch; border-top:1px solid var(--line); display:flex; gap:16px; margin-top:24px; padding-top:20px; }
+    .author-photo { align-items:center; align-self:flex-start; background:linear-gradient(145deg,#dbe7ff,#9ebcff); border:1px solid rgba(76,142,255,.35); border-radius:7px; color:var(--deep); display:flex; flex:0 0 76px; font-size:14px; font-weight:700; height:96px; justify-content:center; letter-spacing:.04em; width:76px; }
+    .author-copy { display:grid; gap:4px; min-width:0; }
+    .author-copy .byline-label { color:var(--muted); font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
+    .author-copy strong { font-size:13px; font-weight:600; letter-spacing:.01em; }
+    .author-copy span:last-child { color:var(--muted); font-size:11px; }
+    .author-bio { color:var(--muted); font-size:12px; line-height:1.5; margin:7px 0 0; max-width:none; }
+    .author-contact { color:var(--muted); display:flex; flex-wrap:wrap; font-size:11px; gap:6px 16px; line-height:1.4; }
+    .author-contact b { color:var(--ink); font-weight:600; }
+    .author-bio-link { color:var(--blue); font-size:11px; font-weight:600; margin-top:3px; text-decoration:none; }
+    .author-bio-link:hover { text-decoration:underline; text-underline-offset:3px; }
+    .article-intro { color:var(--ink); font-size:18px; line-height:1.65; margin:30px 0 0; max-width:none; }
+    .article-body { max-width:none; }
+    .article-body h3 { font-size:21px; font-weight:600; letter-spacing:-.02em; margin:34px 0 11px; }
+    .article-body p { color:var(--muted); font-size:15px; line-height:1.7; margin:0 0 18px; }
+    .article-body ul { color:var(--muted); display:grid; gap:10px; font-size:15px; line-height:1.6; margin:0 0 22px; padding-left:20px; }
+    .article-body li::marker { color:var(--blue); }
+    .article-callout { background:var(--surface); border-left:3px solid var(--blue); border-radius:0 6px 6px 0; color:var(--muted); font-size:14px; line-height:1.6; margin:28px 0; padding:17px 19px; }
+    .article-disclosure { background:rgba(28,40,59,.035); border:1px solid var(--line); border-radius:7px; margin-top:34px; padding:18px 20px; }
+    .article-disclosure h3 { font-size:16px; font-weight:600; letter-spacing:normal; margin:0 0 8px; }
+    .article-disclosure p { color:var(--muted); font-size:13px; line-height:1.6; margin:0; max-width:none; }
+    .article-toc { border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 18px; margin-top:34px; padding-top:18px; }
+    .article-toc a { color:var(--blue); font-size:12px; font-weight:600; text-decoration:none; }
+    .article-toc a:hover { text-decoration:underline; text-underline-offset:3px; }
+    .related { border-top:1px solid var(--line); margin-top:42px; padding-top:25px; }
+    .related h3 { font-size:17px; font-weight:600; margin:0 0 13px; }
+    .related-list { display:grid; gap:10px; grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .related-link { background:var(--surface); border:1px solid transparent; border-radius:6px; color:var(--ink); display:block; padding:13px; text-decoration:none; }
+    .related-link:hover { border-color:rgba(76,142,255,.35); }
+    .related-link strong { display:block; font-size:13px; font-weight:600; }
+    .related-link span { color:var(--muted); display:block; font-size:11px; margin-top:5px; }
+    @media (max-width:900px) {
+      .hub-hero { display:block; }
+      .hero-note { margin-top:25px; max-width:380px; }
+      .hub-layout { display:block; }
+      .hub-rail { position:static; }
+      .rail-toggle { display:flex; }
+      .rail-panel { background:#fff; border:1px solid var(--line); border-radius:7px; margin-top:10px; padding:16px; }
+      .hub-rail:not(.is-open) .rail-panel { display:none; }
+      .article-view { margin-top:24px; }
+    }
+    @media (max-width:600px) {
+      .header-note { display:none; }
+      .page { padding-bottom:70px; }
+      .hub-hero { padding-top:36px; }
+      .hero-description { font-size:16px; }
+      .article-view { padding:24px 18px; }
+      .article-header h2 { font-size:34px; }
+      .article-intro { font-size:16px; }
+      .related-list { grid-template-columns:1fr; }
+      .site-footer { align-items:flex-start; flex-direction:column; gap:8px; }
+    }
+  </style>
+</head>
+<body data-site-page="learning-hub">
+  <div data-site-navigation></div>
+
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="property-exchange-cards.html#top">Home</a><span aria-hidden="true">/</span><a href="content.html">Content</a><span aria-hidden="true">/</span><span aria-current="page">Learning Hub</span></nav>
+
+  <main class="page">
+    <section class="hub-hero">
+      <div class="hub-hero-copy">
+        <p class="eyebrow">Learning hub</p>
+        <h1>Build confidence for your next exchange.</h1>
+        <p class="hero-description">Plain-language guides for understanding 1031 exchanges, DSTs, REITs, Opportunity Zone Funds, and the decisions that shape an investment strategy.</p>
+      </div>
+      <p class="hero-note">Placeholder content for now. Each guide will eventually connect to approved Baker 1031 educational content.</p>
+    </section>
+
+    <section class="hub-layout" aria-label="Learning hub content">
+      <aside class="hub-rail" id="hub-rail">
+        <button class="rail-toggle" id="rail-toggle" type="button" aria-expanded="false" aria-controls="rail-panel"><span>Browse learning topics</span><span aria-hidden="true">⌄</span></button>
+        <div class="rail-panel" id="rail-panel">
+          <div class="rail-heading"><h2>Content type</h2><span id="article-count">0 articles</span></div>
+          <ul class="content-type-list" id="content-type-list"></ul>
+          <div class="rail-heading"><h2>Explore topics</h2></div>
+          <ul class="category-list" id="category-list"></ul>
+          <div class="article-list" id="article-list"></div>
+        </div>
+      </aside>
+
+      <article class="article-view" id="article-view" aria-live="polite"></article>
+    </section>
+  </main>
+
+  <div data-site-footer></div>
+
+  <script>
+    const ARTICLES = [
+      { id:"1031-basics", category:"1031 Basics", title:"What is a 1031 exchange?", excerpt:"A practical introduction to the basic mechanics, timing, and vocabulary.", readTime:"6 min read", updated:"Placeholder guide", intro:"A 1031 exchange can allow an investor to defer recognition of certain capital gains when qualifying real property is exchanged for other qualifying real property. The details matter: timing, identification, ownership, proceeds, and documentation all shape the outcome.", sections:[ ["The basic idea","A 1031 exchange is a tax-deferred exchange of qualifying real property held for investment or business use. It is not a simple sale followed by a purchase; the transaction must be structured to meet applicable requirements."], ["The timeline","Two dates receive special attention: the 45-day identification period and the 180-day exchange period. A qualified intermediary typically holds exchange proceeds during the process."], ["What investors should ask","Investors should ask how the replacement property is identified, who is serving as qualified intermediary, what costs are expected, and which assumptions are specific to their tax situation."] ], takeaways:["Understand the difference between a sale and an exchange.","Track the 45-day and 180-day deadlines.","Coordinate with qualified tax, legal, and exchange professionals."] },
+      { id:"replacement-property", category:"1031 Basics", title:"How do I evaluate replacement property?", excerpt:"A framework for comparing income, risk, leverage, and fit.", readTime:"8 min read", updated:"Placeholder guide", intro:"Replacement-property analysis starts with the investor’s objectives, not a single headline yield. A useful review considers cash flow, property quality, financing, sponsor execution, liquidity, and the role the investment plays in the broader portfolio.", sections:[ ["Start with the role","Ask whether the investment is intended to provide income, diversification, growth, a lower-management ownership experience, or a combination of goals."], ["Compare like with like","Year 1 yield, cap rate equivalent, LTV, hold period, and minimum investment should be viewed together. A higher yield may come with different leverage, tenant, market, or exit assumptions."], ["Review the documents","The offering documents should control the final analysis. Marketing summaries are useful for orientation, but they are not a substitute for reviewing the governing terms and risk factors."] ], takeaways:["Define the investment objective before comparing offerings.","Use multiple metrics rather than one headline number.","Read the governing documents before making a decision."] },
+      { id:"dst-overview", category:"Delaware Statutory Trusts", title:"What is a Delaware Statutory Trust?", excerpt:"How DST ownership works and why it is used in 1031 planning.", readTime:"7 min read", updated:"Placeholder guide", intro:"A Delaware Statutory Trust, commonly called a DST, is a legal ownership structure that can allow multiple investors to hold beneficial interests in real property. DST offerings are often considered by investors seeking passive ownership and a potential replacement-property option.", sections:[ ["What investors own","Investors generally acquire a beneficial interest in the trust rather than directly managing the property. The trust owns the underlying real estate and operates according to its governing documents."], ["Why investors consider DSTs","Potential benefits may include passive ownership, access to larger properties, professional management, and a defined offering structure. These benefits come with investment-specific risks and restrictions."], ["Key diligence questions","Review property-level income, tenant concentration, lease expirations, debt terms, reserves, sponsor history, exit assumptions, and transfer or liquidity limitations."] ], takeaways:["A DST is a structure, not a guarantee of performance.","The underlying property and financing still drive risk.","Review the trust documents and sponsor disclosures carefully."] },
+      { id:"dst-financing", category:"Delaware Statutory Trusts", title:"How does financing affect a DST?", excerpt:"What LTV, debt service, and refinancing assumptions can tell you.", readTime:"7 min read", updated:"Placeholder guide", intro:"Debt can change both the potential return profile and the risk profile of a DST. A financing review should go beyond the LTV headline and consider the loan term, interest rate, amortization, DSCR, maturity, reserves, and exit assumptions.", sections:[ ["The role of LTV","Loan-to-value compares debt with the value of the underlying real estate. Higher leverage can magnify equity outcomes, but it can also increase debt-service, refinancing, and valuation sensitivity."], ["All-cash structures","An all-cash offering may avoid refinancing and interest-rate exposure. It may also provide less positive financial leverage and a different return profile than a financed offering."], ["The maturity question","A loan maturity that arrives before the projected sale can create a refinancing or disposition decision. Investors should understand what the offering assumes will happen at maturity."] ], takeaways:["LTV is only one part of the financing analysis.","All-cash and financed offerings have different tradeoffs.","Loan maturity and exit timing should be reviewed together."] },
+      { id:"reit-721", category:"REITs & 721 Exchanges", title:"What is a 721 exchange?", excerpt:"An introductory look at the possible transition from real property to operating partnership interests.", readTime:"8 min read", updated:"Placeholder guide", intro:"A 721 exchange generally refers to contributing qualifying property to a partnership in exchange for an interest in that partnership. In some real estate structures, investors discuss a possible transition from a DST interest into operating partnership interests, but eligibility and execution depend on the specific structure.", sections:[ ["How it differs from 1031","A 1031 exchange generally focuses on exchanging qualifying real property for other qualifying real property. A 721 contribution involves a partnership and has its own requirements, risks, and tax considerations."], ["Why a private REIT may be discussed","A private REIT or UPREIT-related strategy may offer a potential continuation path, subject to the sponsor’s structure, transaction eligibility, valuation, liquidity, and governing documents."], ["Professional guidance matters","A 721 strategy can involve complex tax, legal, valuation, and liquidity questions. Investors should not assume that an offering-level designation guarantees eligibility for a particular investor."] ], takeaways:["721 and 1031 are different transactions.","Private REIT liquidity may be limited.","Qualified tax and legal advice is essential."] },
+      { id:"private-reit", category:"REITs & 721 Exchanges", title:"How are private REITs different from public REITs?", excerpt:"A plain-language comparison of access, liquidity, valuation, and reporting.", readTime:"7 min read", updated:"Placeholder guide", intro:"Private REITs and public REITs both invest in real estate, but they can differ significantly in how investors buy, value, transfer, and exit their interests. The governing documents—not a public market quote—typically drive the private structure.", sections:[ ["Trading and liquidity","Public REIT shares trade on an exchange. Private REIT interests generally do not, which can make redemptions, transfers, and exit timing more limited or subject to conditions."], ["Valuation","A public REIT has a continuously observable market price. A private REIT may rely on periodic valuations, appraisals, and rules in the offering documents."], ["What to review","Review redemption provisions, fees, valuation methodology, conflicts, leverage, portfolio strategy, distribution policy, and reporting commitments."] ], takeaways:["Private does not mean risk-free or automatically illiquid forever.","Valuation and redemption terms should be read carefully.","The structure and sponsor documents control the details."] },
+      { id:"opportunity-zones", category:"Opportunity Zone Funds", title:"What is an Opportunity Zone Fund?", excerpt:"The core concept, potential tax features, and questions to ask.", readTime:"8 min read", updated:"Placeholder guide", intro:"An Opportunity Zone Fund is an investment vehicle designed to invest in qualifying opportunity-zone businesses or property. The potential tax treatment depends on the investor’s circumstances, the fund’s compliance, the underlying assets, and applicable rules.", sections:[ ["The investment structure","A fund may invest through one or more entities and may pursue development, redevelopment, operating businesses, or other strategies. The fund documents should explain the intended structure."], ["The tax conversation","Potential tax benefits can be highly fact-specific and may depend on holding periods, timing, basis, compliance, and future law. Investors should evaluate the tax discussion with their advisers."], ["The risk profile","Opportunity Zone strategies may involve development, construction, operating, market, timing, and exit risks. A long hold can make the exit assumptions especially important."] ], takeaways:["Tax treatment depends on facts and compliance.","Underlying strategy matters as much as the fund label.","Review hold period, development, and exit assumptions."] },
+      { id:"cash-flow", category:"Income & Cash Flow", title:"How should I read a projected yield?", excerpt:"The difference between Year 1 yield, average yield, peak yield, and growth.", readTime:"6 min read", updated:"Placeholder guide", intro:"Projected yield metrics are useful shorthand, but they represent different points in the forecast. Investors should understand what the calculation includes, whether it is sponsor-stated, and how distributions may change over time.", sections:[ ["Year 1 yield","Year 1 yield describes the first projected period in the offering’s forecast. It can be affected by acquisition timing, initial reserves, rent commencement, fees, and other first-year assumptions."], ["Average and peak yield","Average yield summarizes the forecast across a period, while peak yield identifies the highest projected period. Neither metric eliminates the need to review the year-by-year schedule."], ["Growth rate","Growth rate can describe how a projected income metric changes from one period to another. It should be tested against lease escalations, operating assumptions, debt service, and exit timing."] ], takeaways:["Ask what each yield metric includes.","Review all forecast years, not only Year 1.","Test growth assumptions against the underlying contracts."] },
+      { id:"tax-adjusted-yield", category:"Income & Cash Flow", title:"What does tax-adjusted yield mean?", excerpt:"How to think about tax-adjusted metrics without treating them as individualized tax advice.", readTime:"5 min read", updated:"Placeholder guide", intro:"A tax-adjusted yield attempts to present an income metric after considering stated tax assumptions. Because tax outcomes vary by investor, these figures should be treated as scenario information rather than a personalized tax result.", sections:[ ["What may be included","The calculation may reflect assumptions about depreciation, tax rates, income character, state treatment, or other factors. The exact method should be defined by the source materials."], ["Why it varies","Two investors in the same offering may have different tax results because of basis, filing status, state, passive-activity rules, other income, and individual circumstances."], ["How to use it","Use tax-adjusted yield as one comparison point, then review the stated methodology with a qualified tax professional."] ], takeaways:["Tax-adjusted yield is assumption-dependent.","It is not a personalized tax calculation.","Always review the methodology and your own tax profile."] },
+      { id:"sponsor-diligence", category:"Diligence & Strategy", title:"What should I know about the sponsor?", excerpt:"A sponsor review checklist for experience, execution, reporting, and alignment.", readTime:"7 min read", updated:"Placeholder guide", intro:"The sponsor is responsible for important parts of an offering’s design, execution, reporting, asset management, and exit process. Sponsor diligence is therefore a central part of evaluating a passive real estate investment.", sections:[ ["Track record","Look for relevant experience, completed programs, realized outcomes, current portfolio scale, and experience with the property type and structure under review."], ["Execution and reporting","Review how the sponsor communicates, reports financial performance, handles property issues, manages reserves, and addresses changes to the original plan."], ["Alignment and conflicts","Understand fees, related-party arrangements, affiliated entities, discretion, and the ways the sponsor may be compensated across the life of the investment."] ], takeaways:["Relevant experience matters more than a generic deal count.","Reporting quality is part of sponsor diligence.","Review fees and conflicts before investing."] },
+      { id:"due-diligence", category:"Diligence & Strategy", title:"A practical offering due-diligence checklist", excerpt:"The documents, questions, and assumptions to review before moving forward.", readTime:"9 min read", updated:"Placeholder guide", intro:"Due diligence is the process of testing whether the offering’s property, income, financing, sponsor, tax, and exit assumptions are understandable and supportable. A checklist can help keep the review organized.", sections:[ ["Property and tenants","Review location, condition, use, tenant or operator strength, lease terms, concentration, renewals, and capital needs."], ["Financial and financing","Review sources and uses, reserves, cash-flow forecasts, debt terms, sensitivity cases, fees, and the relationship between financing and projected distributions."], ["Documents and questions","Keep a written list of open questions and confirm which answers are reflected in the final offering documents. Do not rely only on verbal explanations."] ], takeaways:["Organize diligence by property, finance, sponsor, and exit.","Track unanswered questions in writing.","Treat governing documents as the final reference point."] },
+      { id:"exchange-calculator", category:"1031 Basics", title:"1031 exchange planning calculator", excerpt:"A placeholder tool for organizing dates, values, and replacement-property assumptions.", readTime:"5 min read", updated:"Placeholder tool", intro:"This future calculator will help investors organize a 1031 exchange scenario using inputs such as relinquished-property value, replacement-property value, debt, equity, and key deadlines. It is intended for planning conversations, not individualized tax advice.", sections:[ ["What it may estimate","The tool may summarize values, timing checkpoints, and scenario comparisons based on the inputs provided."], ["What it cannot decide","A calculator cannot determine eligibility, tax liability, boot, basis, or the suitability of an investment for a specific taxpayer."], ["How to use it","Use the output as a discussion starting point with your qualified intermediary, tax adviser, and other professionals."] ], takeaways:["Use calculators to organize assumptions, not replace advice.","Confirm every result against the governing facts and documents.","Keep a record of the inputs used for each scenario."] },
+      { id:"real-estate-glossary", category:"1031 Basics", title:"Real estate and 1031 glossary", excerpt:"A placeholder glossary for the terms investors encounter most often.", readTime:"4 min read", updated:"Placeholder glossary", intro:"This future glossary will define common terms used in 1031 exchanges, DSTs, private REITs, Opportunity Zone Funds, financing, and commercial real estate underwriting.", sections:[ ["Terms to expect","Future entries may include qualified intermediary, identification period, replacement property, LTV, DSCR, cap rate, sponsor, beneficial interest, and liquidity."], ["How definitions will be presented","Each entry will use plain language, identify the context in which the term is used, and point back to the governing documents where appropriate."], ["Why context matters","A term can have a different practical meaning depending on the structure, offering documents, tax facts, and property-level assumptions."] ], takeaways:["Definitions are starting points, not legal or tax conclusions.","Read terms in the context of the specific offering.","Ask for clarification when a document uses unfamiliar language."] },
+      { id:"learning-hub-faq", category:"Diligence & Strategy", title:"Learning Hub FAQ", excerpt:"Placeholder answers to common questions about exchanges and real estate offerings.", readTime:"6 min read", updated:"Placeholder FAQ", intro:"This future FAQ will answer recurring questions about 1031 exchanges, DSTs, Opportunity Zone Funds, private REITs, property diligence, financing, documents, and sponsor review.", sections:[ ["Who is this hub for?","The Learning Hub is intended for investors and advisers who want a plain-language starting point for researching exchange-related real estate strategies."], ["Can this content provide tax or legal advice?","No. Educational content can explain concepts and questions to ask, but individual tax, legal, and investment decisions require advice from qualified professionals."], ["How will the FAQ adapt?","Questions can be organized around the structure, property type, financing, hold period, tax features, and other facts presented by each offering."] ], takeaways:["Use the FAQ to frame better questions.","Confirm offering-specific details in the governing documents.","Get professional advice for individual decisions."] },
+      { id:"property-types-overview", category:"Property Types", title:"How do property types affect an investment review?", excerpt:"A placeholder guide to the questions that change across office, healthcare, industrial, multifamily, retail, and specialty assets.", readTime:"8 min read", updated:"Placeholder guide", intro:"Property type shapes the operating model, tenant profile, capital needs, market risks, and exit assumptions of a real estate investment. This guide will provide a starting framework for comparing those differences.", sections:[ ["Income and operations","Office, healthcare, industrial, multifamily, retail, and specialty properties each produce income through different leasing, operating, or contractual arrangements. Review the source of income before comparing headline yields."], ["Property-specific diligence","The right questions depend on the asset: tenant credit and lease rollover may lead for office, healthcare, and industrial; occupancy and rent growth may lead for multifamily; and traffic, sales, and tenant performance may matter more for retail."], ["Capital and exit assumptions","Property condition, capital expenditures, market liquidity, financing, and buyer demand can vary materially by type. The offering documents should explain how those assumptions affect the forecast and exit strategy."] ], takeaways:["Property type changes both the opportunity and the risk questions.","Compare offerings using property-specific metrics.","Review operating assumptions and exit demand together."] }
+    ];
+
+    const categories = ["All topics", ...new Set(ARTICLES.map((article) => article.category))];
+    const contentTypes = ["All content", "Investment Education", "1031 Exchange Strategies", "Calculators", "Sponsor Profiles", "Glossary", "FAQ", "Property Types"];
+    const contentTypeById = {
+      "1031-basics":"1031 Exchange Strategies",
+      "replacement-property":"1031 Exchange Strategies",
+      "dst-overview":"Investment Education",
+      "dst-financing":"Investment Education",
+      "reit-721":"1031 Exchange Strategies",
+      "private-reit":"Investment Education",
+      "opportunity-zones":"Investment Education",
+      "cash-flow":"Investment Education",
+      "tax-adjusted-yield":"Investment Education",
+      "sponsor-diligence":"Sponsor Profiles",
+      "due-diligence":"Investment Education",
+      "exchange-calculator":"Calculators",
+      "real-estate-glossary":"Glossary",
+      "learning-hub-faq":"FAQ",
+      "property-types-overview":"Property Types"
+    };
+    ARTICLES.forEach((article) => { article.contentType = contentTypeById[article.id] || "Investment Education"; });
+    const ARTICLE_PRESENTATION = {
+      "1031-basics": { author:"Baker 1031 Education Team", initials:"B1", role:"1031 exchange education", disclosure:"Placeholder educational content about 1031 exchanges. It is not tax, legal, or investment advice, and eligibility depends on the investor’s facts and the governing rules." },
+      "replacement-property": { author:"Baker 1031 Education Team", initials:"B1", role:"Replacement-property education", disclosure:"This framework is a placeholder for educational use. A replacement-property decision should be based on the specific documents, facts, risks, and professional advice applicable to the investor." },
+      "dst-overview": { author:"Baker 1031 Education Team", initials:"B1", role:"DST education", disclosure:"This is a general explanation of DST structures, not an offer or recommendation. A specific DST’s terms, risks, tax treatment, and eligibility are controlled by its offering documents and professional advice." },
+      "dst-financing": { author:"Baker 1031 Research Team", initials:"B1", role:"Real estate finance education", disclosure:"Financing examples are educational placeholders. Actual leverage, debt service, refinancing, and foreclosure risks vary by offering and should be reviewed in the loan and offering documents." },
+      "reit-721": { author:"Baker 1031 Education Team", initials:"B1", role:"721 exchange education", disclosure:"A 721 Exchange discussion is not a tax opinion or promise of eligibility. Any contribution or continuation strategy requires review of the specific structure with qualified tax and legal professionals." },
+      "private-reit": { author:"Baker 1031 Education Team", initials:"B1", role:"Private REIT education", disclosure:"Private REIT characteristics vary by sponsor and offering. Liquidity, valuation, fees, redemption rights, and tax treatment must be confirmed in the governing documents." },
+      "opportunity-zones": { author:"Baker 1031 Education Team", initials:"B1", role:"Opportunity Zone education", disclosure:"Opportunity Zone tax outcomes depend on timing, compliance, holding period, basis, and individual circumstances. This placeholder is not individualized tax advice." },
+      "cash-flow": { author:"Baker 1031 Research Team", initials:"B1", role:"Investment analysis education", disclosure:"Yield and cash-flow definitions can differ by offering. Forecast figures are assumptions, not guarantees, and should be reconciled to the source documents and year-by-year schedule." },
+      "tax-adjusted-yield": { author:"Baker 1031 Research Team", initials:"B1", role:"Investment analysis education", disclosure:"Tax-adjusted metrics are scenario outputs based on stated assumptions. They are not a projection of an individual investor’s tax liability or after-tax return." },
+      "sponsor-diligence": { author:"Baker 1031 Research Team", initials:"B1", role:"Sponsor diligence education", disclosure:"Sponsor information should be verified against current disclosures and offering documents. Past experience or completed programs do not guarantee future performance." },
+      "due-diligence": { author:"Baker 1031 Research Team", initials:"B1", role:"Diligence education", disclosure:"This checklist is a starting point, not a complete diligence review. Investors should obtain and review the current offering documents and consult their own advisers." },
+      "exchange-calculator": { author:"Baker 1031 Research & Tools", initials:"B1", role:"Planning tool", disclosure:"This future calculator is a planning aid only. It will not determine tax liability, exchange eligibility, boot, basis, or suitability, and its output should be reviewed by qualified professionals." },
+      "real-estate-glossary": { author:"Baker 1031 Education Team", initials:"B1", role:"Reference resource", disclosure:"Glossary entries are simplified educational definitions. Legal, tax, financing, and offering documents may use terms in more specific ways." },
+      "learning-hub-faq": { author:"Baker 1031 Education Team", initials:"B1", role:"Educational FAQ", disclosure:"FAQ responses are general educational placeholders and do not replace individualized tax, legal, or investment advice or the governing documents for an offering." },
+      "property-types-overview": { author:"Baker 1031 Research Team", initials:"B1", role:"Property-type education", disclosure:"Property-type comparisons are general educational guidance. Actual risks, income, capital needs, and exit assumptions depend on the specific asset, market, tenants, sponsor, and documents." }
+    };
+    const AUTHOR_DETAILS = {
+      "Baker 1031 Education Team": { bio:"Placeholder bio: the Baker 1031 Education Team creates plain-language resources to help investors understand exchange structures, real estate strategies, and the questions behind an investment decision.", email:"Contact details to be added", phone:"Contact details to be added", bioUrl:"author-bio.html#education-team" },
+      "Baker 1031 Research Team": { bio:"Placeholder bio: the Baker 1031 Research Team develops educational frameworks for reviewing property fundamentals, sponsor information, financing, benchmarks, and offering assumptions.", email:"Contact details to be added", phone:"Contact details to be added", bioUrl:"author-bio.html#research-team" },
+      "Baker 1031 Research & Tools": { bio:"Placeholder bio: the Baker 1031 Research & Tools team builds planning resources that help investors organize inputs and prepare better questions for qualified professionals.", email:"Contact details to be added", phone:"Contact details to be added", bioUrl:"author-bio.html#research-tools" }
+    };
+    let activeContentType = "All content";
+    let activeCategory = "All topics";
+    let activeArticleId = ARTICLES[0].id;
+    const contentTypeList = document.getElementById("content-type-list");
+    const categoryList = document.getElementById("category-list");
+    const articleList = document.getElementById("article-list");
+    const articleView = document.getElementById("article-view");
+    const articleCount = document.getElementById("article-count");
+    const rail = document.getElementById("hub-rail");
+    const railToggle = document.getElementById("rail-toggle");
+
+    function visibleArticles() {
+      return ARTICLES.filter((article) => (activeContentType === "All content" || article.contentType === activeContentType) && (activeCategory === "All topics" || article.category === activeCategory));
+    }
+
+    function renderContentTypes() {
+      contentTypeList.innerHTML = contentTypes.map((contentType) => `<li><button class="content-type-button${contentType === activeContentType ? " is-active" : ""}" type="button" data-content-type="${contentType}">${contentType}</button></li>`).join("");
+    }
+
+    function renderCategories() {
+      categoryList.innerHTML = categories.map((category) => `<li><button class="category-button${category === activeCategory ? " is-active" : ""}" type="button" data-category="${category}">${category}</button></li>`).join("");
+    }
+
+    function renderArticleList() {
+      const articles = visibleArticles();
+      articleCount.textContent = `${articles.length} article${articles.length === 1 ? "" : "s"}`;
+      articleList.innerHTML = articles.map((article) => `<button class="article-link${article.id === activeArticleId ? " is-active" : ""}" type="button" data-article="${article.id}"><strong>${article.title}</strong><span>${article.readTime}</span></button>`).join("");
+    }
+
+    function renderArticle() {
+      const article = ARTICLES.find((candidate) => candidate.id === activeArticleId) || ARTICLES[0];
+      const presentation = ARTICLE_PRESENTATION[article.id] || { author:"Baker 1031 Education Team", initials:"B1", role:"Educational resource", disclosure:"This placeholder resource is for general education only and is not tax, legal, or investment advice." };
+      const author = AUTHOR_DETAILS[presentation.author] || AUTHOR_DETAILS["Baker 1031 Education Team"];
+      const toc = article.sections.map(([heading], index) => `<a href="#article-section-${index}">${heading}</a>`).join("");
+      const sections = article.sections.map(([heading, body], index) => `<section id="article-section-${index}"><h3>${heading}</h3><p>${body}</p>${index === 0 ? `<div class="article-callout">Placeholder note: this educational explanation will be reviewed and replaced with approved Baker 1031 content before publication.</div>` : ""}</section>`).join("");
+      const related = ARTICLES.filter((candidate) => candidate.id !== article.id && candidate.category === article.category).slice(0, 2);
+      articleView.innerHTML = `<header class="article-header"><p class="article-kicker">${article.category}</p><h2>${article.title}</h2><div class="article-meta"><span>${article.readTime}</span><span>${article.updated}</span><span>${article.contentType}</span><span class="placeholder-badge">Placeholder content</span></div><p class="article-intro">${article.intro}</p><div class="article-byline" aria-label="Author"><div class="author-photo" role="img" aria-label="${presentation.author} photo placeholder">${presentation.initials}</div><div class="author-copy"><span class="byline-label">Written by</span><strong>${presentation.author}</strong><span>${presentation.role}</span><p class="author-bio">${author.bio}</p><div class="author-contact"><span><b>Email</b> ${author.email}</span><span><b>Phone</b> ${author.phone}</span></div><a class="author-bio-link" href="${author.bioUrl}">View full bio →</a></div></div></header><div class="article-toc" aria-label="Article contents">${toc}</div><div class="article-body">${sections}<h3>Key takeaways</h3><ul>${article.takeaways.map((takeaway) => `<li>${takeaway}</li>`).join("")}</ul></div><section class="article-disclosure" aria-label="Item disclosure"><h3>Disclosure</h3><p>${presentation.disclosure}</p></section>${related.length ? `<section class="related"><h3>Continue learning</h3><div class="related-list">${related.map((relatedArticle) => `<button class="related-link" type="button" data-article="${relatedArticle.id}"><strong>${relatedArticle.title}</strong><span>${relatedArticle.readTime} · ${relatedArticle.category}</span></button>`).join("")}</div></section>` : ""}`;
+      document.title = `${article.title} | Learning Hub`;
+    }
+
+    function selectArticle(id) {
+      if (!ARTICLES.some((article) => article.id === id)) return;
+      activeArticleId = id;
+      renderArticleList();
+      renderArticle();
+      rail.classList.remove("is-open");
+      railToggle.setAttribute("aria-expanded", "false");
+      const typeQuery = activeContentType === "All content" ? "" : `?type=${encodeURIComponent(activeContentType)}`;
+      window.history.replaceState(null, "", `${typeQuery}#${id}`);
+    }
+
+    contentTypeList.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-content-type]");
+      if (!button) return;
+      activeContentType = button.dataset.contentType;
+      activeCategory = "All topics";
+      const articles = visibleArticles();
+      const currentArticleVisible = articles.some((article) => article.id === activeArticleId);
+      if (!currentArticleVisible) activeArticleId = articles[0]?.id || ARTICLES[0].id;
+      renderContentTypes();
+      renderCategories();
+      renderArticleList();
+      renderArticle();
+    });
+
+    categoryList.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+      activeCategory = button.dataset.category;
+      const articles = visibleArticles();
+      const currentArticleVisible = articles.some((article) => article.id === activeArticleId);
+      if (!currentArticleVisible) activeArticleId = articles[0]?.id || ARTICLES[0].id;
+      renderCategories();
+      renderArticleList();
+      renderArticle();
+    });
+
+    articleList.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-article]");
+      if (button) selectArticle(button.dataset.article);
+    });
+
+    articleView.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-article]");
+      if (button) selectArticle(button.dataset.article);
+    });
+
+    railToggle.addEventListener("click", () => {
+      const open = !rail.classList.contains("is-open");
+      rail.classList.toggle("is-open", open);
+      railToggle.setAttribute("aria-expanded", String(open));
+      railToggle.lastElementChild.textContent = open ? "⌃" : "⌄";
+    });
+
+    const initialType = new URLSearchParams(window.location.search).get("type");
+    if (contentTypes.includes(initialType)) activeContentType = initialType;
+    const initialArticle = window.location.hash.slice(1);
+    if (ARTICLES.some((article) => article.id === initialArticle)) activeArticleId = initialArticle;
+    renderContentTypes();
+    renderCategories();
+    renderArticleList();
+    renderArticle();
+  </script>
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Investment Offering | Property Exchange</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="navigation.js" defer></script>
+  <script src="footer.js" defer></script>
+  <style>
+    :root { }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-bottom:100px; scroll-padding-top:88px; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:"Proxima Nova","Avenir Next",Avenir,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    a,button { font:inherit; }
+    .page { margin:0 auto; max-width:1500px; padding:0 clamp(22px,5vw,76px) 112px; }
+    .offering-hero { border-bottom:1px solid var(--line); display:grid; gap:34px; grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr); padding:42px 0 40px; }
+    .offering-actions-bar { align-items:center; background:#f4f4f5; border:1px solid var(--line); border-radius:7px; display:flex; grid-column:1 / -1; justify-content:space-between; padding:9px 11px; }
+    .offering-action-inner { align-items:center; display:flex; justify-content:space-between; width:100%; }
+    .offering-actions-right { align-items:center; display:flex; gap:8px; }
+    .offering-actions-bar .detail-action { align-items:center; border-color:transparent; }
+    .offering-actions-bar .detail-action:hover { background:#fff; }
+    .offering-actions-bar .save-button { align-items:center; display:inline-flex; gap:7px; }
+    .save-star { font-size:18px; font-weight:400; line-height:1; }
+    .documents-action { align-items:center; display:inline-flex; gap:7px; }
+    .documents-action svg { fill:none; flex:0 0 15px; height:15px; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; width:15px; }
+    .eyebrow { color:var(--blue); font-size:11px; font-weight:400; letter-spacing:.15em; margin:0 0 14px; text-transform:uppercase; }
+    h1 { font-size:clamp(40px,5.2vw,68px); font-weight:500; letter-spacing:normal; line-height:.96; margin:0; max-width:850px; }
+    .hero-description { color:var(--muted); font-size:16px; line-height:1.65; margin:24px 0 0; max-width:780px; }
+    strong { letter-spacing:.012em; }
+    .hero-media { align-self:start; }
+    .hero-media-actions { align-items:center; display:flex; gap:10px; justify-content:space-between; margin-bottom:12px; }
+    .hero-photo { aspect-ratio:1.55/1; background:#eef1f6; border-radius:7px; display:block; max-height:340px; object-fit:cover; width:100%; }
+    .hero-photo-placeholder { align-items:center; background:#eef1f6; border-radius:7px; color:var(--muted); display:flex; min-height:240px; padding:24px; }
+    .status-row { align-items:center; display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
+    .status-pill { background:rgba(76,142,255,.12); border:1px solid rgba(76,142,255,.35); border-radius:6px; color:var(--deep); display:inline-flex; font-size:11px; font-weight:400; padding:8px 10px; text-transform:uppercase; }
+    .structure-pill { border:1px solid var(--line); border-radius:6px; color:var(--muted); display:inline-flex; font-size:11px; padding:8px 10px; }
+    .metric-grid { display:grid; gap:10px; grid-template-columns:repeat(4,minmax(0,1fr)); padding:22px 0 0; }
+    .metric { border-left:3px solid var(--blue); padding:4px 0 4px 14px; }
+    .metric span { color:var(--muted); display:block; font-size:10px; letter-spacing:.05em; text-transform:uppercase; }
+    .metric strong { display:block; font-size:23px; font-weight:500; letter-spacing:-.05em; margin-top:6px; }
+    .sponsor-card { align-items:center; border-bottom:1px solid var(--line); display:flex; gap:12px; padding:16px 2px; }
+    .sponsor-card img { height:34px; max-width:112px; object-fit:contain; width:auto; }
+    .sponsor-card-copy { min-width:0; }
+    .sponsor-card-copy strong { display:block; font-size:14px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .sponsor-card-copy span { color:var(--muted); display:block; font-size:11px; margin-top:3px; }
+    .detail-actions { display:flex; flex-wrap:wrap; gap:9px; padding-top:16px; }
+    .detail-action { border:1px solid var(--blue); border-radius:5px; color:var(--blue); display:inline-flex; font-size:12px; font-weight:600; padding:9px 12px; text-decoration:none; }
+    .detail-action:hover { background:rgba(76,142,255,.1); }
+    .sponsor-profile .detail-action { margin-top:20px; }
+    .save-button { background:var(--blue); border:1px solid var(--blue); border-radius:5px; color:#fff; cursor:pointer; display:inline-flex; font-size:12px; font-weight:600; padding:9px 12px; }
+    .save-button:hover,.save-button.is-saved { background:var(--deep); border-color:var(--deep); }
+    .page-anchors { align-items:center; backdrop-filter:blur(14px); background:rgba(255,255,255,.95); border:1px solid var(--line); border-radius:7px; bottom:16px; box-shadow:0 10px 28px rgba(28,40,59,.14); display:flex; flex-wrap:wrap; gap:4px; justify-content:center; left:50%; max-width:calc(100vw - 32px); padding:7px; position:fixed; transform:translateX(-50%); width:max-content; z-index:90; }
+    .page-anchors a { border-radius:4px; color:var(--muted); font-size:12px; font-weight:600; padding:9px 10px; text-decoration:none; }
+    .page-anchors a:hover { color:var(--blue); }
+    .page-anchors-toggle { align-items:center; background:transparent; border:0; color:var(--ink); cursor:pointer; display:none; font-size:12px; font-weight:600; justify-content:space-between; padding:10px 11px; text-align:left; width:100%; }
+    .highlight-list { counter-reset:highlight; display:grid; gap:13px; list-style:none; margin:0; padding:0; }
+    .highlight-list li { align-items:flex-start; border:1px solid var(--line); border-radius:6px; display:grid; gap:14px; grid-template-columns:34px minmax(0,1fr); padding:17px; width:100%; }
+    .highlight-list li::before { align-items:center; background:rgba(76,142,255,.12); border-radius:50%; color:var(--blue); counter-increment:highlight; content:counter(highlight); display:flex; font-size:13px; font-weight:700; height:30px; justify-content:center; width:30px; }
+    .highlight-list p { font-size:14px; line-height:1.62; max-width:none; min-width:0; width:100%; }
+    .benchmark-grid { display:grid; gap:16px; grid-template-columns:repeat(3,minmax(0,1fr)); margin-top:28px; }
+    .benchmark-card { border:1px solid var(--line); border-left:4px solid var(--line); border-radius:6px; padding:22px; position:relative; }
+    .benchmark-card.is-positive { background:rgba(63,154,95,.055); border-left-color:#3f9a5f; }
+    .benchmark-card.is-negative { background:rgba(216,137,60,.055); border-left-color:#d8893c; }
+    .benchmark-card.is-neutral { background:#fafafa; border-left-color:#8a929d; }
+    .benchmark-card h3 { font-size:15px; font-weight:600; margin:0 0 18px; padding-right:48%; }
+    .benchmark-values { display:grid; gap:14px; grid-template-columns:1fr 1fr; }
+    .benchmark-values span { color:var(--muted); display:block; font-size:10px; text-transform:uppercase; }
+    .benchmark-values strong { display:block; font-size:19px; font-weight:500; margin-top:3px; }
+    .benchmark-interpretation { font-size:11px; font-weight:600; line-height:1.25; margin:0; max-width:48%; position:absolute; right:22px; text-align:right; top:22px; white-space:nowrap; }
+    .benchmark-card.is-positive .benchmark-interpretation { color:#2f7c4b; }
+    .benchmark-card.is-negative .benchmark-interpretation { color:#a96122; }
+    .benchmark-card.is-neutral .benchmark-interpretation { color:var(--muted); }
+    .benchmark-explanation,.benchmark-method { color:var(--muted); font-size:12px; line-height:1.65; margin:20px 0 0; }
+    .benchmark-explanation { margin-top:32px; }
+    .benchmark-method { border-top:1px solid var(--line); font-size:11px; padding-top:11px; }
+    .benchmark-method { display:none; }
+    .forecast-summary { display:grid; gap:10px; grid-template-columns:repeat(6,minmax(0,1fr)); margin-bottom:34px; row-gap:24px; }
+    .forecast-summary-card { border:1px solid var(--line); border-radius:6px; min-width:0; padding:14px; position:relative; }
+    .forecast-summary-card > span { align-items:center; color:var(--muted); display:flex; font-size:10px; gap:5px; text-transform:uppercase; }
+    .forecast-summary-card strong { display:block; font-size:20px; font-weight:500; margin-top:6px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .tooltip-wrap { align-items:center; display:inline-flex; gap:7px; padding-bottom:2px; position:relative; }
+    .info-tip { align-items:center; background:var(--blue); border:0; border-radius:50%; color:#fff; cursor:help; display:inline-flex; flex:0 0 15px; font-size:9px; height:15px; justify-content:center; margin-left:1px; padding:0; width:15px; }
+    .tooltip-content { background:var(--deep); border-radius:5px; box-shadow:0 10px 24px rgba(28,40,59,.2); color:#fff; font-size:11px; font-weight:400; left:0; line-height:1.5; max-width:min(240px,calc(100vw - 48px)); opacity:0; padding:12px 13px; pointer-events:none; position:absolute; top:calc(100% + 18px); transform:translateY(4px); transition:opacity .15s ease,transform .15s ease; white-space:normal; width:240px; z-index:50; }
+    .tooltip-wrap:hover .tooltip-content,.info-tip:focus + .tooltip-content { opacity:1; transform:translateY(0); }
+    .forecast-table-wrap,.finance-table-wrap,.documents-table-wrap { border:1px solid var(--line); border-radius:7px; overflow-x:auto; }
+    .forecast-table,.finance-table,.documents-table { border-collapse:collapse; min-width:620px; width:100%; }
+    .forecast-table th,.forecast-table td,.finance-table th,.finance-table td,.documents-table th,.documents-table td { border-bottom:1px solid var(--line); padding:13px 15px; text-align:left; vertical-align:top; }
+    .forecast-table tr:last-child th,.forecast-table tr:last-child td,.finance-table tr:last-child th,.finance-table tr:last-child td,.documents-table tr:last-child th,.documents-table tr:last-child td { border-bottom:0; }
+    .forecast-table th,.finance-table th,.documents-table th { background:#f4f4f5; color:var(--ink); font-size:10px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; }
+    .forecast-table td,.finance-table td,.documents-table td { color:var(--ink); font-size:13px; }
+    .cashflow-chart { align-items:end; border-bottom:1px solid var(--line); display:grid; gap:8px; grid-template-columns:repeat(10,minmax(18px,1fr)); height:210px; margin:30px 0 12px; padding:0 8px; }
+    .cashflow-column { align-items:center; display:flex; flex-direction:column; height:100%; justify-content:end; min-width:0; }
+    .cashflow-bar { background:var(--blue); border-radius:4px 4px 0 0; flex:0 0 auto; min-height:2px; width:min(34px,80%); }
+    .cashflow-value { color:var(--muted); font-size:10px; margin-bottom:5px; }
+    .cashflow-year { color:var(--muted); font-size:10px; margin-top:8px; }
+    .forecast-note { color:var(--muted); font-size:12px; line-height:1.5; margin:12px 0 0; }
+    #financial-forecast .cashflow-chart { margin:42px 0 0; }
+    #financial-forecast .forecast-note { margin:22px 0 28px; }
+    .forecast-compact { display:none; }
+    .reit-section { background:rgba(76,142,255,.06); border:1px solid rgba(76,142,255,.25); border-radius:7px; padding:18px; }
+    .reit-section p { margin:0; max-width:none; }
+    .reit-points { display:grid; gap:10px; grid-template-columns:repeat(3,minmax(0,1fr)); list-style:none; margin:18px 0 0; padding:0; }
+    .reit-points li { border-top:1px solid rgba(76,142,255,.25); color:var(--muted); font-size:12px; line-height:1.5; padding-top:10px; }
+    .finance-callout { background:rgba(76,142,255,.09); border-left:3px solid var(--blue); border-radius:0 6px 6px 0; color:var(--ink); font-size:14px; line-height:1.55; margin-bottom:18px; padding:15px 17px; }
+    .sponsor-section { display:grid; gap:24px; grid-template-columns:minmax(0,1fr) minmax(260px,.7fr); }
+    .sponsor-profile { border:1px solid var(--line); border-radius:7px; padding:20px; }
+    .sponsor-profile-head { align-items:center; display:flex; gap:14px; }
+    .sponsor-profile-head img { height:46px; max-width:150px; object-fit:contain; width:auto; }
+    .sponsor-profile h3 { font-size:20px; font-weight:500; margin:0; }
+    .sponsor-profile p { margin-top:16px; }
+    .sponsor-stats { display:grid; gap:10px; grid-template-columns:1fr 1fr; }
+    .sponsor-stat { border-bottom:1px solid var(--line); padding:10px 0; }
+    .sponsor-stat span { color:var(--muted); display:block; font-size:10px; text-transform:uppercase; }
+    .sponsor-stat strong { display:block; font-size:18px; font-weight:500; margin-top:4px; }
+    .document-link { color:var(--blue); font-weight:600; text-decoration:none; }
+    .document-link:hover { text-decoration:underline; text-underline-offset:3px; }
+    .gate-pill { background:rgba(28,40,59,.08); border-radius:99px; color:var(--muted); display:inline-flex; font-size:10px; padding:5px 8px; }
+    .faq-list { display:grid; gap:10px; }
+    .faq-item { border:1px solid var(--line); border-radius:7px; padding:0 17px; }
+    .faq-item summary { cursor:pointer; font-size:14px; font-weight:600; list-style:none; padding:17px 28px 17px 0; position:relative; }
+    .faq-item summary::-webkit-details-marker { display:none; }
+    .faq-item summary::after { color:var(--blue); content:"+"; font-size:20px; font-weight:400; line-height:1; position:absolute; right:2px; top:15px; }
+    .faq-item[open] summary::after { content:"−"; }
+    .faq-answer { border-top:1px solid var(--line); padding:14px 0 17px; }
+    .faq-answer p { font-size:14px; line-height:1.62; max-width:none; }
+    .contact-card { align-items:flex-start; background:#f4f4f5; border:1px solid var(--line); border-radius:7px; display:flex; gap:18px; justify-content:space-between; padding:19px; }
+    .contact-card h3 { font-size:18px; font-weight:500; margin:0 0 7px; }
+    .contact-card p { font-size:13px; line-height:1.5; margin:0; }
+    .contact-details { color:var(--muted); display:grid; gap:5px; font-size:12px; min-width:190px; }
+    .contact-details strong { color:var(--ink); font-weight:600; }
+    .contact-card-compact { align-items:stretch; background:#fff; gap:12px; justify-content:flex-start; margin-top:12px; padding:12px; }
+    .contact-photo { align-items:center; align-self:stretch; background:linear-gradient(145deg,#dbe7ff,#9ebcff); border:1px solid rgba(76,142,255,.35); border-radius:7px; color:var(--deep); display:flex; flex:0 0 72px; font-size:15px; font-weight:700; justify-content:center; letter-spacing:.04em; min-height:72px; width:72px; }
+    .contact-card-compact .contact-copy { min-width:0; }
+    .contact-card-compact .eyebrow { font-size:9px; margin-bottom:4px; }
+    .contact-card-compact h3 { font-size:15px; margin:0 0 3px; }
+    .contact-card-compact p { font-size:11px; line-height:1.4; }
+    .contact-card-compact .contact-details { color:var(--ink); font-size:12px; gap:5px; line-height:1.4; margin-top:8px; min-width:0; }
+    .contact-card-compact .contact-details strong { display:inline-block; min-width:48px; }
+    .section { border-bottom:1px solid var(--line); padding:34px 0; }
+    .section h2 { font-size:26px; font-weight:500; letter-spacing:normal; margin:0 0 18px; }
+    .section p { color:var(--muted); font-size:15px; line-height:1.65; margin:0; max-width:1000px; white-space:pre-wrap; }
+    .section .highlight-list p { max-width:none; width:100%; }
+    .benchmark-card .benchmark-explanation { margin-top:32px; }
+    #pros-cons { display:flex; flex-direction:column; }
+    #pros-cons > h2 { order:1; }
+    #pros-cons > .benchmark-grid { margin-bottom:24px; margin-top:0; order:2; }
+    #pros-cons > .insight-grid { display:grid; gap:14px; grid-template-columns:1fr; order:3; }
+    .insight-card { border:1px solid var(--line); border-radius:6px; padding:18px; }
+    .insight-card h3 { font-size:16px; font-weight:600; letter-spacing:-.03em; margin:0 0 9px; }
+    .insight-card p { color:var(--muted); font-size:14px; line-height:1.62; margin:0; max-width:none; white-space:pre-wrap; }
+    .detail-table-wrap { border:1px solid var(--line); border-radius:7px; overflow-x:auto; }
+    .detail-table { border-collapse:collapse; min-width:760px; width:100%; }
+    .detail-table th,.detail-table td { border-bottom:1px solid var(--line); padding:13px 15px; text-align:left; vertical-align:top; }
+    .detail-table tr:last-child th,.detail-table tr:last-child td { border-bottom:0; }
+    .detail-table th { background:#f4f4f5; color:var(--ink); font-size:10px; font-weight:600; letter-spacing:.05em; min-width:220px; text-transform:uppercase; }
+    .detail-table td { color:var(--ink); font-size:13px; line-height:1.5; min-width:460px; white-space:pre-wrap; }
+    .back-link { color:var(--blue); display:inline-flex; font-size:13px; font-weight:700; margin-top:27px; text-decoration:none; }
+    .back-link:hover { text-decoration:underline; text-underline-offset:3px; }
+    .not-connected { background:#f4f4f5; border:1px solid var(--line); border-radius:7px; color:var(--muted); margin-top:36px; padding:22px; }
+    #source-data { display:none; }
+    @media (max-width:900px) {
+      .offering-hero { grid-template-columns:1fr; }
+      .hero-photo { max-height:420px; }
+      .metric-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .insight-grid { grid-template-columns:1fr; }
+      .forecast-summary { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .sponsor-section { grid-template-columns:1fr; }
+    }
+    @media (max-width:1180px) {
+      .forecast-summary { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    }
+    @media (max-width:760px) {
+      .page-anchors { align-items:stretch; bottom:12px; flex-direction:column; gap:0; left:12px; max-width:none; padding:0; transform:none; width:calc(100% - 24px); }
+      .page-anchors-toggle { display:flex; }
+      .page-anchors a { display:none; padding:11px 12px; }
+      .page-anchors.is-open { border-radius:7px; max-height:70vh; overflow-y:auto; }
+      .page-anchors.is-open a { display:flex; }
+      .offering-actions-bar { align-items:stretch; }
+      .offering-action-inner { align-items:stretch; flex-direction:column; gap:9px; }
+      .offering-actions-right { justify-content:flex-start; }
+      .forecast-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width:560px) {
+      .header-note { display:none; }
+      .page { padding-bottom:112px; }
+      .offering-hero { gap:24px; padding-top:30px; }
+      h1 { font-size:42px; }
+      .metric-grid { grid-template-columns:1fr 1fr; }
+      .metric strong { font-size:20px; }
+      .section { padding:27px 0; }
+      .forecast-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .benchmark-grid { grid-template-columns:1fr; }
+      .reit-points { grid-template-columns:1fr; }
+      .contact-card { flex-direction:column; }
+      .contact-card-compact { flex-direction:row; }
+    }
+    @media (max-width:420px) {
+      .forecast-summary { grid-template-columns:1fr; }
+    }
+    @media (max-width:640px) {
+      .forecast-wide { display:none; }
+      .forecast-compact { display:block; }
+    }
+  </style>
+</head>
+<body data-site-page="investments">
+  <div data-site-navigation></div>
+
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="property-exchange-cards.html#top">Home</a><span aria-hidden="true">/</span><a href="property-exchange-cards.html#property-catalog">Property Exchange</a><span aria-hidden="true">/</span><span aria-current="page" id="breadcrumb-current">Investment Offering</span></nav>
+
+  <main class="page" id="offering-page"></main>
+
+  <script>
+    const FIELD_ORDER = [
+      "Investment Name", "Sponsor", "Structure", "Status", "Total Offering", "Equity", "Debt", "In-Place LTV", "Available Equity", "Last Updated", "Available Percentage", "Property Type", "Location", "Location (Use)", "Total Load", "Strategy", "721 Exchange Exit", "Estimated Hold Period", "Description", "Highlight 1", "Highlight 2", "Highlight 3", "Highlight 4", "Highlight 5", "Pros", "Cons", "Insights", "Y1", "Y2", "Y3", "Y4", "Y5", "Y6", "Y7", "Y8", "Y9", "Y10", "Average Yield", "Tax-Adj. Yield", "Cap Rate Equivalent", "Lender", "Interest Rate", "Loan Term", "I/O Period", "Amortization", "Y1 DSCR", "Property Address", "Property Photo Link", "DD Folder Link", "Minimum Investment", "Photo Link Use", "Tax Adjusted Yield (Use)", "Tax Adj Label", "DD Label", "URL", "Sponsor URL", "Prop Type URL", "Sponsor Button Text", "Property Type Button Text", "Sponsor Founded", "Sponsor Description", "Sponsor AUM", "Full-Cycle Count", "Sponsor AAR", "Sponsor AEM", "Sponsor Hold", "Sponsor Success", "Sponsor Image", "BM: Avg. Income - Deal", "BM: Avg. Income - MKT", "BM: Avg. Income - Interpret", "BM: Growth - Deal", "BM: Growth- MKT", "BM: Growth - Interpret", "BM: Peak - Deal", "BM: Peak- MKT", "BM: Peak - Interpret", "List Description", "Investment Description Copy/Paste"
+    ];
+
+    const OFFERING_DATA = {
+      "Investment Name":"AEI Healthcare Portfolio VII DST",
+      "Sponsor":"AEI Capital Corporation",
+      "Structure":"Delaware Statutory Trust (DST)",
+      "Status":"Available",
+      "Total Offering":"$50,500,000",
+      "Equity":"$50,500,000",
+      "Debt":"$0",
+      "In-Place LTV":"0.00% LTV",
+      "Available Equity":"$25,680,857",
+      "Last Updated":"5/27/2026",
+      "Available Percentage":"50.85%",
+      "Property Type":"Healthcare",
+      "Location":"AZ, TX, CT",
+      "Location (Use)":"AZ, CT, TX",
+      "Total Load":"9.12%",
+      "Strategy":"Core",
+      "721 Exchange Exit":"Optional",
+      "Estimated Hold Period":"10 years",
+      "Description":`Three purpose-built, single-tenant outpatient medical office assets held debt-free in a DST: HonorHealth Complete Care (12,000 SF, Surprise AZ, Phoenix MSA, lease to 2042), Texas Children's Pavilion for Women (12,642 SF, Cedar Park/Austin TX, co-located one block from the tenant's own hospital campus, lease to 2038), and a United Healthcare/ProHealth Physicians clinic (26,547 SF on 6.40 ac, Bristol CT, lease to 2037). Submarkets are infill/Sun Belt growth corridors with strong daytime traffic and household incomes ($78k-$125k) and constrained MOB supply (~6.9% national availability). Thesis is durable, escalating net-lease income from investment-grade-equivalent healthcare credit, underpinned by secular outpatient-care migration and aging demographics. Operating strategy is passive triple-net ownership through an affiliated master tenant, with insurance fully tenant-reimbursed and de minimis trust-level expense; income growth is driven entirely by contractual 2.0%-2.5% escalators.`,
+      "Highlight 1":`The portfolio exhibits a credit barbell. Texas Children's Hospital (AA-/Fitch) and the UnitedHealth Group parent (AA-/Fitch, A/AM Best) supply investment-grade-equivalent corporate backing, while HonorHealth (A+/Fitch) is a single-state Arizona nonprofit system. Income is disproportionately weighted to Bristol, whose ~$1.15M gross rent is roughly 44% of in-place rent, concentrating cash flow in a single asset and a single tenant whose parent's Fitch outlook was revised to negative in July 2025 - a trajectory the static AA- marketing presentation omits.`,
+      "Highlight 2":`Weighted average remaining lease term is 13.62 years across staggered expirations (Surprise 2042, Austin 2038, Bristol 2037). Duration is asymmetric: the long-dated HonorHealth lease carries the lowest escalator (2.0%), while the largest asset (Bristol) escalates 2.5% only through year 9 and then steps flat, capping income growth on the portfolio's biggest rent stream precisely as the projected disposition window approaches.`,
+      "Highlight 3":`Real estate quality is high and recently delivered (2022-2024 vintage), purpose-built for outpatient use. The Austin asset's co-location one block from Texas Children's own hospital campus creates a mission-critical referral linkage that raises renewal probability and tenant switching costs; the Surprise asset is the sole urgent care within a 3.5-mile radius in a high-traffic retail corridor (71,024 VPD). These siting characteristics function as soft barriers to entry that support re-leasing economics.`,
+      "Highlight 4":`The debt-free capital structure removes refinancing, maturity, rate-cap, and foreclosure risk entirely, and eliminates the equal-or-greater-debt replacement requirement for 1031 investors averse to boot-offsetting leverage. The structural cost is the absence of positive financial leverage, which mechanically caps levered IRR and is the primary reason the 5.00% going-in distribution sits below comparable leveraged net-lease DSTs.`,
+      "Highlight 5":`The triple-net structure with tenant-reimbursed insurance and ~$1,400/year trust-level property expense insulates distributable cash from operating inflation. The qualifier is capital responsibility: the Trust retains certain capex obligations funded only from a modest reserve that declines from $371,000 to ~$67,764 by 2035, drawn down immediately by a $221,000 Connecticut transfer-tax charge in year 1, leaving limited capacity for unbudgeted tenant improvements and condition-assessment items.`,
+      "Pros":`The offering pairs institutional-grade healthcare net-lease credit with a defensive, unlevered balance sheet. Tenants are investment-grade-equivalent corporate operators on long-dated NNN leases (13.62-yr WALT) with contractual 2.0%-2.5% escalators, in demographically supported submarkets benefiting from outpatient-care migration, an aging cohort, and tight MOB supply. The debt-free structure removes refinance, maturity, cap-cost, and foreclosure exposure and offers a clean basis for 1031 capital seeking certainty of monthly income. The sponsor carries a ~40-year, 153-program operating history, including 57 full-cycle 1031 offerings averaging 6.37% annual cash-on-cash, and the distribution schedule escalates from 5.00% to 6.14% over the projected hold.`,
+      "Cons":`Income is concentrated in three single-tenant assets, with Bristol/United Healthcare alone at ~44% of rent, rendering any single vacancy binary to portfolio cash flow. The master tenant is thinly capitalized - funded by a $500,000 demand promissory note (not cash) from an affiliate, with projected Y1 net income of only ~$2,013 - so a subtenant payment interruption would rapidly exhaust the master tenant's cushion and the trust's limited reserves. The Bristol escalator caps at year 9 and steps flat, flattening growth on the largest asset into the disposition window, where that lease (2037 expiry) leaves only ~1.5 years of residual term at a 2035 exit - a material re-leasing/rollover overhang on the highest-rent asset at the point of valuation. The UNH parent's Fitch outlook turned negative in July 2025, and the Bristol lessee is an operating subsidiary rather than the rated parent. Reserve adequacy is thin post the $221,000 CT transfer-tax draw, and a one-month UNH rent abatement (August 2026) dampens Y1 collections.`,
+      "Insights":`This is a low-beta, income-oriented core net-lease vehicle whose return is almost entirely a function of contractual escalators and terminal value, given the absence of leverage and any value-add component. The 5.00% to 6.14% distribution ramp is mechanically supported by the lease schedule, but the early-year spread between subtenant rent collected and master-lease rent paid is razor-thin, concentrating execution risk in the thinly capitalized master tenant. The debt-free design is genuinely defensive in a higher-for-longer regime, sidestepping the leveraged-net-lease maturity wall and cap-cost repricing, but the same feature suppresses yield - the 5.00% going-in sits below AEI's own operating-program current yield (5.48%) and full-cycle average (6.37%), implying reliance on escalators and exit pricing compression to reach target total return. The dominant underwriting sensitivity is terminal value: with no amortization and a fixed escalator schedule, investor IRR is governed by the year-10 disposition pricing against a portfolio whose largest asset will carry only short residual lease term at exit, while Austin (2038) and Surprise (2042) provide longer-dated support to residual value. Feasibility of the projected distributions is reasonable on a contractual basis; the credible variance is in capital-event timing and exit pricing rather than in-place income.`,
+      "Y1":"5.00%", "Y2":"5.04%", "Y3":"5.07%", "Y4":"5.35%", "Y5":"5.47%", "Y6":"5.63%", "Y7":"5.76%", "Y8":"5.90%", "Y9":"6.03%", "Y10":"6.14%",
+      "Average Yield":"5.54%",
+      "Tax-Adj. Yield":"Not disclosed",
+      "Cap Rate Equivalent":"7.60%",
+      "Lender":"None (debt-free)",
+      "Interest Rate":"N/A (no debt)",
+      "Loan Term":"N/A (no debt)",
+      "I/O Period":"N/A (no debt)",
+      "Amortization":"N/A (no debt)",
+      "Y1 DSCR":"N/A - no debt service",
+      "Property Address":"",
+      "Property Photo Link":"https://drive.google.com/file/d/1UpckdXDq8HJjnUzTg9n_WOvsJA0k1qGf/view?usp=sharing",
+      "DD Folder Link":"",
+      "Minimum Investment":"$100,000",
+      "Photo Link Use":"https://lh3.googleusercontent.com/d/1UpckdXDq8HJjnUzTg9n_WOvsJA0k1qGf",
+      "Tax Adjusted Yield (Use)":"11.84%",
+      "Tax Adj Label":"Est. Tax-Adjusted Yield⁹",
+      "DD Label":"Offering Documents Available By Request",
+      "URL":"aei-healthcare-portfolio-vii-dst",
+      "Sponsor URL":"sponsors/aei-capital-corporation",
+      "Prop Type URL":"property-type/healthcare",
+      "Sponsor Button Text":"Learn More About AEI Capital Corporation",
+      "Property Type Button Text":"Learn More About Healthcare Properties",
+      "Sponsor Founded":"1970",
+      "Sponsor Description":`AEI is among the longest-tenured names in the net-lease 1031 space, tracing its lineage to 1970 and to what it describes as one of the earliest securitized fractional-ownership structures. The firm's franchise is built on debt-free, all-cash ownership of single-tenant retail, restaurant and healthcare properties leased to credit-quality operators—a conservative posture that strips refinancing and foreclosure risk out of the capital stack and has carried it through multiple real estate cycles. With decades of completed full-cycle programs behind it, AEI markets stability and longevity over scale or sector breadth, a profile that resonates with risk-averse exchangers prioritizing capital preservation over yield.`,
+      "Sponsor AUM":"$1.61B",
+      "Full-Cycle Count":"55 Deals",
+      "Sponsor AAR":"6.80%",
+      "Sponsor AEM":"1.58x",
+      "Sponsor Hold":"13.57 Years",
+      "Sponsor Success":"100.00%",
+      "Sponsor Image":"https://img.logo.dev/aeifunds.com?token=pk_FIVsDKgZTvCedVXXtt2rEg&size=200&retina=true",
+      "BM: Avg. Income - Deal":"5.54%",
+      "BM: Avg. Income - MKT":"6.41%",
+      "BM: Avg. Income - Interpret":"Below Average",
+      "BM: Growth - Deal":"22.80%",
+      "BM: Growth- MKT":"15.43%",
+      "BM: Growth - Interpret":"Above Average",
+      "BM: Peak - Deal":"6.14%",
+      "BM: Peak- MKT":"7.03%",
+      "BM: Peak - Interpret":"Below Average",
+      "List Description":"Investment: AEI Healthcare Portfolio VII DST | Sponsor: AEI Capital Corporation | Structure: Delaware Statutory Trust (DST) | Status: Available | LTV: 0.00% LTV | Availability: 0.508531821782178 | Location: AZ, CT, TX | Strategy: Core | 721 Exchange Exit: Optional | Estimated Hold: 10 years | Cap Rate Equivalent: 0.076 | Minimum Investment: 100000",
+      "Investment Description Copy/Paste":`AEI Healthcare Portfolio VII DST (0.00% LTV)
+
+AEI Healthcare Portfolio VII is a debt-free Delaware Statutory Trust holding three purpose-built, single-tenant outpatient medical office assets across Arizona, Texas, and Connecticut, net-leased to healthcare operators on terms running to 2037-2042. Contractual 2.0%-2.5% annual escalators and tenant-reimbursed insurance produce escalating net-lease income with minimal trust-level expense. The all-cash structure carries no refinancing or interest-rate exposure, positioning the offering as a core, income-oriented vehicle underpinned by secular outpatient-care migration and aging demographics.
+
+>> Download Offering Documents
+https://www.baker1031.com/sponsors/aei-capital-corporation`
+    };
+
+    const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "'":"&#39;", "\"":"&quot;" }[character]));
+    const queryOffering = new URLSearchParams(window.location.search).get("offering") || OFFERING_DATA["URL"];
+    const isMappedOffering = queryOffering === OFFERING_DATA["URL"] || queryOffering === OFFERING_DATA["Investment Name"];
+    const record = isMappedOffering ? OFFERING_DATA : null;
+    const page = document.getElementById("offering-page");
+    const OFFERING_DOCUMENTS = [
+      { name:"AEI Healthcare Portfolio VII DST", label:"Private Placement Memorandum (PPM)", file:"https://drive.google.com/uc?export=download&id=1MwIlrSy2YzfK6WMdsA4OGHHbp1whl-hx" },
+      { name:"AEI Healthcare Portfolio VII DST", label:"Investment Brochure", file:"https://drive.google.com/uc?export=download&id=17Lgvl-T-Cg3vFFXAY7Tphbb_lj3Jd0_Vz" },
+      { name:"AEI Healthcare Portfolio VII DST", label:"Fact Sheet / Teaser", file:"https://drive.google.com/uc?export=download&id=1JQ2itTnW3UUL-5mPL5gBrSH_zUkH4rkS" }
+    ];
+
+    function renderMappedOffering() {
+      document.title = `${record["Investment Name"]} | Property Exchange`;
+      document.getElementById("breadcrumb-current").textContent = record["Investment Name"];
+      const highlights = ["Highlight 1", "Highlight 2", "Highlight 3", "Highlight 4", "Highlight 5"];
+      const metrics = [["Average Yield", record["Average Yield"]], ["Cap Rate Equivalent", record["Cap Rate Equivalent"]], ["In-Place LTV", record["In-Place LTV"]], ["Minimum Investment", record["Minimum Investment"]]];
+      const toNumber = (value) => { const number = parseFloat(String(value ?? "").replace(/[^0-9.-]/g, "")); return Number.isFinite(number) ? number : null; };
+      const holdYears = Math.max(0, parseInt(String(record["Estimated Hold Period"] || "10"), 10) || 10);
+      const forecast = Array.from({ length:10 }, (_, index) => { const year = index + 1; return { year, value:toNumber(record[`Y${year}`]), projected:year <= holdYears }; });
+      const disclosed = forecast.filter((item) => item.projected && item.value !== null);
+      const firstForecast = disclosed[0]?.value ?? null;
+      const lastForecast = disclosed[disclosed.length - 1]?.value ?? null;
+      const peakForecast = disclosed.length ? Math.max(...disclosed.map((item) => item.value)) : null;
+      const growthRate = firstForecast !== null && firstForecast !== 0 && lastForecast !== null ? ((lastForecast / firstForecast) - 1) * 100 : null;
+      const displayPercent = (value) => value === null ? "Not disclosed" : `${value.toFixed(2)}%`;
+      const tooltipMetric = (label, explanation) => `<span class="tooltip-wrap">${label}<button class="info-tip" type="button" aria-label="Learn more about ${label}">i</button><span class="tooltip-content" role="tooltip">${explanation}</span></span>`;
+      const chartMax = disclosed.length ? Math.max(...disclosed.map((item) => item.value), 0) : 0;
+      const chartHeight = 160;
+      const chartMarkup = disclosed.length ? `<div class="cashflow-chart" role="img" aria-label="Projected annual cash flow yield chart">${forecast.map((item) => { const value = item.projected ? item.value : null; const height = value !== null && chartMax > 0 ? Math.max(2, (value / chartMax) * chartHeight) : 0; return `<div class="cashflow-column"><span class="cashflow-value">${value === null ? "—" : displayPercent(value)}</span><span class="cashflow-bar" style="height:${height}px"></span><span class="cashflow-year">Y${item.year}</span></div>`; }).join("")}</div>` : `<p class="forecast-note">No annual cash flow forecast is disclosed. The chart intentionally remains empty for zero-coupon or otherwise non-distributing offerings.</p>`;
+      const forecastNote = holdYears < 10 ? `The source indicates an estimated hold of ${holdYears} years. Years beyond the stated hold are shown as not projected, while the table retains all ten possible forecast columns.` : "The forecast supports shorter-hold offerings by marking post-hold years as not projected and supports zero-coupon offerings without manufacturing cash flow values.";
+      const benchmarkCards = [["Income", "BM: Avg. Income - Deal", "BM: Avg. Income - MKT", "BM: Avg. Income - Interpret", "Shows whether the offering's average income is above, below, or in line with the market reference.", "Deal and market values are the source-provided average income benchmarks."], ["Growth", "BM: Growth - Deal", "BM: Growth- MKT", "BM: Growth - Interpret", "Shows how the offering's projected income growth compares with the market reference.", "Deal growth is derived from the source forecast; market growth is the source-provided market benchmark."], ["Peak", "BM: Peak - Deal", "BM: Peak- MKT", "BM: Peak - Interpret", "Shows whether the offering's highest projected yield compares favorably with the market reference.", "Deal peak is the highest disclosed forecast yield; market peak is the source-provided market benchmark."]];
+      const financingRows = [["Total Offering", "Total Offering"], ["Equity", "Equity"], ["Debt", "Debt"], ["In-Place LTV", "In-Place LTV"], ["Lender", "Lender"], ["Interest Rate", "Interest Rate"], ["Loan Term", "Loan Term"], ["I/O Period", "I/O Period"], ["Amortization", "Amortization"], ["Y1 DSCR", "Y1 DSCR"]];
+      const allCash = record["Debt"] === "$0" || /none|no debt/i.test(record["Lender"] || "");
+      const financeCallout = allCash ? "This offering is structured as an all-cash investment with no loan or debt-service obligation. Financing fields are retained below for consistent mapping across offerings." : "This offering includes financing. Review the source-provided loan terms below; fields that are not disclosed remain unchanged.";
+      page.innerHTML = `<section class="offering-hero"><div><p class="eyebrow">${escapeHtml(record["Property Type"])} · ${escapeHtml(record["Strategy"])}</p><h1>${escapeHtml(record["Investment Name"])}</h1><p class="hero-description">${escapeHtml(record["Description"])}</p><div class="status-row"><span class="status-pill">${escapeHtml(record["Status"])}</span><span class="structure-pill">${escapeHtml(record["Structure"])}</span></div><div class="metric-grid">${metrics.map(([label, value]) => `<div class="metric"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}</div></div><div class="hero-media"><div class="hero-media-actions"><a class="detail-action" href="property-exchange-cards.html#property-catalog">← Return to all investments</a><button class="save-button" id="save-button" type="button" aria-pressed="false">Save to bookmarks</button></div><img class="hero-photo" src="${escapeHtml(record["Photo Link Use"])}" alt="${escapeHtml(record["Investment Name"])} property photo"><div class="sponsor-card"><img src="${escapeHtml(record["Sponsor Image"])}" alt="${escapeHtml(record["Sponsor"])} logo"><div class="sponsor-card-copy"><strong>${escapeHtml(record["Sponsor"])}</strong><span>Founded ${escapeHtml(record["Sponsor Founded"])} · ${escapeHtml(record["Sponsor AUM"])} AUM</span></div></div></div></section><nav class="page-anchors" aria-label="Offering sections"><a href="#highlights">Highlights</a><a href="#pros-cons">Pros, Cons &amp; Insights</a><a href="#financial-forecast">Financial forecast</a><a href="#financing">Financing</a><a href="#sponsor">Sponsor</a><a href="#documents">Documents</a><a href="#source-data">Source data</a></nav><section class="section" id="highlights"><h2>Highlights</h2><ol class="highlight-list">${highlights.map((field) => `<li><p>${escapeHtml(record[field])}</p></li>`).join("")}</ol></section><section class="section" id="pros-cons"><h2>Pros, cons, and analysis</h2><div class="insight-grid"><article class="insight-card"><h3>Pros</h3><p>${escapeHtml(record["Pros"])}</p></article><article class="insight-card"><h3>Cons</h3><p>${escapeHtml(record["Cons"])}</p></article><article class="insight-card"><h3>Analysis</h3><p>${escapeHtml(record["Insights"])}</p></article></div><div class="benchmark-grid">${benchmarkCards.map(([label, deal, market, interpretation, explanation, method]) => { const tone = record[interpretation] === "Above Average" ? "positive" : record[interpretation] === "Below Average" ? "negative" : "neutral"; return `<article class="benchmark-card is-${tone}"><h3>${label} benchmark</h3><div class="benchmark-values"><div><span>Deal</span><strong>${escapeHtml(record[deal])}</strong></div><div><span>Market</span><strong>${escapeHtml(record[market])}</strong></div></div><p class="benchmark-interpretation">${escapeHtml(record[interpretation])}</p><p class="benchmark-explanation">${explanation}</p><p class="benchmark-method"><strong>Methodology:</strong> ${method}</p></article>`; }).join("")}</div></section><section class="section" id="financial-forecast"><h2>Financial forecast</h2><div class="forecast-summary"><div class="forecast-summary-card"><span>Year 1 yield</span><strong>${escapeHtml(record["Y1"])}</strong></div><div class="forecast-summary-card"><span>Average yield</span><strong>${escapeHtml(record["Average Yield"])}</strong></div><div class="forecast-summary-card"><span>Peak yield</span><strong>${displayPercent(peakForecast)}</strong></div><div class="forecast-summary-card"><span>${tooltipMetric("Tax-equivalent yield", "Tax-adjusted yield as provided by the source, using its stated tax assumptions and methodology.")}</span><strong>${escapeHtml(record["Tax Adjusted Yield (Use)"])}</strong></div><div class="forecast-summary-card"><span>${tooltipMetric("Growth rate", "Calculated as (last disclosed forecast yield ÷ first disclosed forecast yield − 1) × 100.")}</span><strong>${displayPercent(growthRate)}</strong></div><div class="forecast-summary-card"><span>${tooltipMetric("Cap rate equivalent", "A capitalization-rate equivalent generally compares annualized property income with implied property value; the exact methodology remains source-specific.")}</span><strong>${escapeHtml(record["Cap Rate Equivalent"])}</strong></div></div>${chartMarkup}<p class="forecast-note">${forecastNote}</p><div class="forecast-wide"><div class="forecast-table-wrap"><table class="forecast-table"><thead><tr><th scope="col">Metric</th>${forecast.map((item) => `<th scope="col">Y${item.year}</th>`).join("")}</tr></thead><tbody><tr><th scope="row">Cash flow yield</th>${forecast.map((item) => `<td>${item.projected ? (item.value === null ? "Not disclosed" : displayPercent(item.value)) : "Not projected"}</td>`).join("")}</tr><tr><th scope="row">Projection status</th>${forecast.map((item) => `<td>${item.projected ? "Projected" : "Post-hold"}</td>`).join("")}</tr></tbody></table></div></div><div class="forecast-compact"><div class="forecast-table-wrap"><table class="forecast-table"><thead><tr><th scope="col">Year</th><th scope="col">Cash flow yield</th><th scope="col">Projection status</th></tr></thead><tbody>${forecast.map((item) => `<tr><th scope="row">Year ${item.year}</th><td>${item.projected ? (item.value === null ? "Not disclosed" : displayPercent(item.value)) : "Not projected"}</td><td>${item.projected ? "Projected" : "Post-hold / not projected"}</td></tr>`).join("")}</tbody></table></div></div></section><section class="section" id="financing"><h2>Financing</h2><div class="finance-callout">${financeCallout}</div><div class="finance-table-wrap"><table class="finance-table"><tbody>${financingRows.map(([label, field]) => `<tr><th scope="row">${label}</th><td>${escapeHtml(record[field])}</td></tr>`).join("")}</tbody></table></div></section><section class="section" id="sponsor"><h2>Investment sponsor</h2><div class="sponsor-section"><div class="sponsor-profile"><div class="sponsor-profile-head"><img src="${escapeHtml(record["Sponsor Image"])}" alt="${escapeHtml(record["Sponsor"])} logo"><h3>${escapeHtml(record["Sponsor"])}</h3></div><p>${escapeHtml(record["Sponsor Description"])}</p><a class="detail-action" href="#sponsor" aria-disabled="true">Learn more about sponsor · coming soon</a></div><div class="sponsor-stats"><div class="sponsor-stat"><span>Founded</span><strong>${escapeHtml(record["Sponsor Founded"])}</strong></div><div class="sponsor-stat"><span>AUM</span><strong>${escapeHtml(record["Sponsor AUM"])}</strong></div><div class="sponsor-stat"><span>Full-cycle count</span><strong>${escapeHtml(record["Full-Cycle Count"])}</strong></div><div class="sponsor-stat"><span>Average annual return</span><strong>${escapeHtml(record["Sponsor AAR"])}</strong></div><div class="sponsor-stat"><span>Average equity multiple</span><strong>${escapeHtml(record["Sponsor AEM"])}</strong></div><div class="sponsor-stat"><span>Success rate</span><strong>${escapeHtml(record["Sponsor Success"])}</strong></div></div></div></section><section class="section" id="documents"><h2>Offering documents</h2><div class="documents-table-wrap"><table class="documents-table"><thead><tr><th>Investment name</th><th>Document</th><th>Access</th></tr></thead><tbody>${OFFERING_DOCUMENTS.map((document) => `<tr><td>${escapeHtml(document.name)}</td><td>${escapeHtml(document.label)}</td><td><a class="document-link" href="${escapeHtml(document.file)}" target="_blank" rel="noopener">Download document</a></td></tr>`).join("")}</tbody></table></div></section><section class="section" id="source-data"><h2>Source data</h2><div class="detail-table-wrap"><table class="detail-table"><tbody>${FIELD_ORDER.map((field) => `<tr><th scope="row">${escapeHtml(field)}</th><td>${escapeHtml(record[field])}</td></tr>`).join("")}</tbody></table></div></section><a class="back-link" href="property-exchange-cards.html#property-catalog">← Back to available investments</a>`;
+    }
+
+    function renderUnmappedOffering() {
+      const name = queryOffering.replace(/-/g, " ");
+      document.title = `${name} | Property Exchange`;
+      document.getElementById("breadcrumb-current").textContent = name;
+      page.innerHTML = `<div class="not-connected"><p class="eyebrow">Investment offering</p><h1>${escapeHtml(name)}</h1><p class="hero-description">This card is linked to the offering-detail template. Its full source row has not been supplied yet, so no additional offering data has been invented or transformed.</p><div class="detail-actions"><button class="save-button" id="save-button" type="button" aria-pressed="false">Save to bookmarks</button><a class="back-link" href="property-exchange-cards.html#property-catalog">← Back to available investments</a></div></div>`;
+    }
+
+    const BOOKMARK_STATE_KEY = "property-exchange-bookmarks-v1";
+    const bookmarkKey = record ? record["Investment Name"] : queryOffering;
+    const recommendedOfferingNames = new Set(["Willow Creek Center", "Silver Creek Mineral Royalties"]);
+    const isRecommended = recommendedOfferingNames.has(bookmarkKey);
+
+    function readBookmarkState() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(BOOKMARK_STATE_KEY) || "{}");
+        return { favorites:new Set(stored.favorites || []), excludedRecommendations:new Set(stored.excludedRecommendations || []) };
+      } catch (error) {
+        return { favorites:new Set(), excludedRecommendations:new Set() };
+      }
+    }
+
+    function writeBookmarkState(state) {
+      try {
+        localStorage.setItem(BOOKMARK_STATE_KEY, JSON.stringify({ favorites:[...state.favorites], excludedRecommendations:[...state.excludedRecommendations] }));
+      } catch (error) { /* Local file storage may be unavailable. */ }
+    }
+
+    function updateBookmarkButton() {
+      const button = document.getElementById("save-button");
+      if (!button) return;
+      const state = readBookmarkState();
+      const saved = (state.favorites.has(bookmarkKey) || isRecommended) && !state.excludedRecommendations.has(bookmarkKey);
+      button.classList.toggle("is-saved", saved);
+      button.setAttribute("aria-pressed", String(saved));
+      button.innerHTML = `<span class="save-star" aria-hidden="true">${saved ? "★" : "☆"}</span><span>${saved ? "Saved to bookmarks" : "Save to bookmarks"}</span>`;
+    }
+
+    function setupBookmarkButton() {
+      const button = document.getElementById("save-button");
+      if (!button) return;
+      updateBookmarkButton();
+      button.addEventListener("click", () => {
+        const state = readBookmarkState();
+        const saved = (state.favorites.has(bookmarkKey) || isRecommended) && !state.excludedRecommendations.has(bookmarkKey);
+        if (saved) {
+          state.favorites.delete(bookmarkKey);
+          if (isRecommended) state.excludedRecommendations.add(bookmarkKey);
+        } else {
+          state.favorites.add(bookmarkKey);
+          state.excludedRecommendations.delete(bookmarkKey);
+        }
+        writeBookmarkState(state);
+        updateBookmarkButton();
+      });
+      window.addEventListener("storage", (event) => { if (event.key === BOOKMARK_STATE_KEY) updateBookmarkButton(); });
+    }
+
+    function insertDynamicFaq() {
+      if (!record || document.getElementById("offering-faq")) return;
+
+      const field = (name, fallback = "Not disclosed") => {
+        const value = String(record[name] ?? "").trim();
+        return value || fallback;
+      };
+      const toNumber = (value) => {
+        const number = parseFloat(String(value ?? "").replace(/[^0-9.-]/g, ""));
+        return Number.isFinite(number) ? number : null;
+      };
+      const percent = (value) => value === null ? "Not disclosed" : `${value.toFixed(2)}%`;
+      const yields = Array.from({ length:10 }, (_, index) => toNumber(record[`Y${index + 1}`]));
+      const disclosedYields = yields.filter((value) => value !== null && value > 0);
+      const hasCashFlowForecast = disclosedYields.length > 0;
+      const allCash = record["Debt"] === "$0" || /none|no debt/i.test(record["Lender"] || "");
+      const ltv = toNumber(record["In-Place LTV"]);
+      const exchangeStatus = field("721 Exchange Exit");
+      const eligible721 = ["Mandatory", "Optional"].includes(exchangeStatus);
+      const propertyType = field("Property Type");
+      const propertyTypeLower = propertyType.toLowerCase();
+      const structure = field("Structure");
+      const location = field("Location (Use)", field("Location"));
+      const documentsAvailable = OFFERING_DOCUMENTS.length > 0;
+      const averageYield = field("Average Yield");
+      const peakYield = disclosedYields.length ? percent(Math.max(...disclosedYields)) : "Not disclosed";
+      const growth = disclosedYields.length > 1 && disclosedYields[0] !== 0 ? percent(((disclosedYields[disclosedYields.length - 1] / disclosedYields[0]) - 1) * 100) : "Not disclosed";
+
+      const propertyContext = propertyTypeLower.includes("health") || propertyTypeLower.includes("medical")
+        ? "Healthcare and medical-office properties are generally evaluated through tenant credit, lease duration, reimbursement structure, location quality, operating demand, and re-leasing risk. The offering documents provide the property-specific underwriting details."
+        : propertyTypeLower.includes("multifamily")
+          ? "Multifamily properties are generally evaluated through occupancy, rent growth, household demand, operating expenses, resident concentration, and the local housing market. The offering documents provide the property-specific underwriting details."
+          : propertyTypeLower.includes("industrial")
+            ? "Industrial properties are generally evaluated through tenant credit, building functionality, logistics access, lease term, rent growth, and local supply. The offering documents provide the property-specific underwriting details."
+            : propertyTypeLower.includes("retail")
+              ? "Retail properties are generally evaluated through tenant sales or credit, traffic, visibility, lease structure, co-tenancy, and local competition. The offering documents provide the property-specific underwriting details."
+              : propertyTypeLower.includes("office")
+                ? "Office properties are generally evaluated through tenant credit, occupancy, lease rollover, work-pattern trends, building quality, and submarket demand. The offering documents provide the property-specific underwriting details."
+                : propertyTypeLower.includes("mineral")
+                  ? "Mineral royalties are evaluated differently from traditional real estate because income depends on production, commodity activity, reserve characteristics, operator performance, and royalty terms. Review the offering documents for the specific royalty interests and assumptions."
+                  : "The property type should be evaluated using the offering documents, including the asset, tenant or operator, market, lease or royalty terms, expenses, and exit assumptions.";
+
+      const core = [
+        { question:`What is ${field("Investment Name")} and what does it offer?`, answer:field("Description") },
+        { question:`What is the investment structure for ${field("Investment Name")}?`, answer:`This offering is structured as a ${structure}. The supplied record identifies the investment as ${field("Strategy")} and lists its status as ${field("Status")}.` },
+        { question:`What property type and location does this offering involve?`, answer:`The offering is categorized as ${propertyType} and identifies the location as ${location}.` },
+        { question:`What are the expected yield and cash-flow characteristics?`, answer:hasCashFlowForecast ? `The supplied forecast shows a Year 1 yield of ${field("Y1")}, an average yield of ${averageYield}, and a peak disclosed yield of ${peakYield}. The record also lists a tax-adjusted yield of ${field("Tax Adjusted Yield (Use)")} and a cap rate equivalent of ${field("Cap Rate Equivalent")}. Across the disclosed forecast, the change from the first to last positive yield is ${growth}.` : "No positive annual cash-flow yield is disclosed in the supplied forecast. This may indicate a zero-coupon, deferred-income, or otherwise non-distributing structure; review the offering documents for timing and return mechanics." },
+        { question:`Does this offering use debt, and what is the LTV?`, answer:allCash ? `This is an all-cash offering with ${field("In-Place LTV")} and no loan or debt-service obligation. The financing fields are therefore not applicable under the standardized client-facing labels.` : `The offering reports ${field("In-Place LTV")} and debt of ${field("Debt")}. Review the lender, interest rate, term, amortization, and DSCR information in the financing section.` },
+        { question:`Is this offering eligible for a 721 Exchange exit?`, answer:eligible721 ? `The supplied record identifies a ${exchangeStatus} 721 Exchange exit. This is an offering-level designation, not a tax opinion or guarantee that a particular investor or transaction will qualify.` : "The supplied record identifies no 721 Exchange exit. Investors should not assume 721 eligibility unless it is expressly documented and confirmed by qualified tax and legal professionals." },
+        { question:`What is the minimum investment and expected hold period?`, answer:`The minimum investment is ${field("Minimum Investment")} and the estimated hold period is ${field("Estimated Hold Period")}. These are source-provided terms and may not describe every investor-specific requirement or exit scenario.` },
+        { question:`Who is the sponsor of this offering?`, answer:`The sponsor is ${field("Sponsor")}. The supplied sponsor profile lists ${field("Sponsor Founded")} as the founding year, ${field("Sponsor AUM")} in AUM, and ${field("Full-Cycle Count")} in full-cycle history. ${field("Sponsor Description")}` }
+      ];
+
+      const contextual = [
+        { when:eligible721, question:"What is a private REIT in the context of a 721 Exchange?", answer:"A private REIT is a privately offered, non-publicly traded real estate investment trust. A qualifying 721 transaction may exchange an eligible real estate interest for operating-partnership or similar interests, subject to the sponsor structure, transaction documents, and tax and legal requirements. Private REIT liquidity, valuation, transfer, and redemption terms may be limited." },
+        { when:!hasCashFlowForecast, question:"How should investors evaluate an offering with no annual cash-flow forecast?", answer:"When no positive annual yield is disclosed, investors should review whether the offering is zero-coupon, deferred-income, development-oriented, royalty-based, or otherwise structured to return value through a later sale or liquidity event. The offering documents should control the timing, conditions, and risks of any projected return." },
+        { when:ltv !== null && ltv >= 60, question:"What does the offering's LTV indicate about leverage?", answer:`The offering reports ${field("In-Place LTV")}. Higher LTV can increase exposure to interest expense, refinancing, valuation, and debt-service risk, even though leverage may also affect equity returns. Review the loan terms and DSCR alongside the LTV rather than treating LTV as a standalone risk measure.` },
+        { when:true, question:`What should investors know about ${propertyType.toLowerCase()} investments?`, answer:propertyContext },
+        { when:documentsAvailable, question:"Are offering documents available for review?", answer:`${OFFERING_DOCUMENTS.length} offering documents are listed in the Offering Documents section, including ${OFFERING_DOCUMENTS.map((document) => document.label).join(", ")}. Review the documents for the governing terms, risks, financial assumptions, and eligibility requirements.` },
+        { when:String(field("Tax Adjusted Yield (Use)")).toLowerCase() !== "not disclosed", question:"What is the tax-adjusted yield?", answer:`The supplied tax-adjusted yield is ${field("Tax Adjusted Yield (Use)")}. ${field("Tax Adj Label")}. Tax-adjusted metrics depend on stated assumptions and are not a substitute for individualized tax advice.` },
+        { when:field("Cons") !== "Not disclosed", question:"What are the principal risks and tradeoffs?", answer:field("Cons") },
+        { when:field("BM: Avg. Income - Deal") !== "Not disclosed", question:"How does this offering compare with market benchmarks?", answer:`The benchmark section compares deal and market reference values for income, growth, and peak performance. It reports income at ${field("BM: Avg. Income - Deal")} versus ${field("BM: Avg. Income - MKT")}, growth at ${field("BM: Growth - Deal")} versus ${field("BM: Growth- MKT")}, and peak at ${field("BM: Peak - Deal")} versus ${field("BM: Peak- MKT")}. Benchmark results are context, not a prediction of future performance.` }
+      ].filter((item) => item.when);
+
+      const faqItems = [...core, ...contextual].slice(0, 10);
+      const faqSection = document.createElement("section");
+      faqSection.className = "section";
+      faqSection.id = "offering-faq";
+      faqSection.innerHTML = `<h2>Frequently asked questions</h2><div class="faq-list">${faqItems.map((item) => `<details class="faq-item"><summary>${escapeHtml(item.question)}</summary><div class="faq-answer"><p>${escapeHtml(item.answer)}</p></div></details>`).join("")}</div>`;
+      document.getElementById("documents")?.insertAdjacentElement("afterend", faqSection);
+
+      const schema = document.createElement("script");
+      schema.id = "offering-faq-schema";
+      schema.type = "application/ld+json";
+      schema.textContent = JSON.stringify({ "@context":"https://schema.org", "@type":"FAQPage", mainEntity:faqItems.map((item) => ({ "@type":"Question", name:item.question, acceptedAnswer:{ "@type":"Answer", text:item.answer } })) });
+      document.head.appendChild(schema);
+      document.querySelector(".page-anchors")?.insertAdjacentHTML("beforeend", '<a href="#offering-faq">FAQ</a>');
+    }
+
+    function setupPageAnchors() {
+      const anchors = document.querySelector(".page-anchors");
+      if (!anchors || anchors.querySelector(".page-anchors-toggle")) return;
+      const toggle = document.createElement("button");
+      toggle.className = "page-anchors-toggle";
+      toggle.type = "button";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-controls", "offering-section-links");
+      toggle.innerHTML = '<span>On this page</span><span aria-hidden="true">⌃</span>';
+      const links = document.createElement("span");
+      links.id = "offering-section-links";
+      links.style.display = "contents";
+      anchors.prepend(toggle, links);
+      [...anchors.querySelectorAll(":scope > a")].forEach((link) => links.appendChild(link));
+      const setOpen = (open) => {
+        anchors.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.lastElementChild.textContent = open ? "⌄" : "⌃";
+      };
+      toggle.addEventListener("click", () => setOpen(!anchors.classList.contains("is-open")));
+      anchors.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
+    }
+
+    function insertInvestmentProfessionalCard() {
+      if (!record) return;
+      const heroMedia = document.querySelector(".hero-media");
+      const heroPhoto = heroMedia?.querySelector(".hero-photo");
+      if (!heroMedia || !heroPhoto || heroMedia.querySelector(".contact-card-compact")) return;
+      const contactCard = document.createElement("div");
+      contactCard.className = "contact-card contact-card-compact";
+      contactCard.innerHTML = '<div class="contact-photo" role="img" aria-label="Investment professional photo placeholder">IP</div><div class="contact-copy"><p class="eyebrow">Your investment professional</p><h3>Investment professional</h3><p>Baker 1031</p><div class="contact-details"><div><strong>Phone</strong> Contact details to be added</div><div><strong>Email</strong> Contact details to be added</div></div></div>';
+      heroPhoto.insertAdjacentElement("afterend", contactCard);
+    }
+
+    function setupOfferingActionBar() {
+      const hero = document.querySelector(".offering-hero");
+      const heroMedia = hero?.querySelector(".hero-media");
+      const existingActions = heroMedia?.querySelector(".hero-media-actions");
+      if (!hero || !heroMedia || !existingActions || hero.querySelector(".offering-actions-bar")) return;
+      const returnLink = existingActions.querySelector(".detail-action");
+      const saveButton = existingActions.querySelector(".save-button");
+      if (!returnLink || !saveButton) return;
+
+      const documentsLink = document.createElement("a");
+      documentsLink.className = "detail-action documents-action";
+      documentsLink.href = "#documents";
+      documentsLink.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h5l2 2h6A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5z"></path><path d="M4.5 10h15"></path></svg><span>Offering Documents</span>';
+      const rightActions = document.createElement("div");
+      rightActions.className = "offering-actions-right";
+      rightActions.append(saveButton, documentsLink);
+
+      existingActions.className = "offering-action-inner";
+      existingActions.innerHTML = "";
+      existingActions.append(returnLink, rightActions);
+      const actionBar = document.createElement("div");
+      actionBar.className = "offering-actions-bar";
+      actionBar.append(existingActions);
+      hero.prepend(actionBar);
+    }
+
+    function applyClientFacingCleanup() {
+      document.getElementById("source-data")?.remove();
+      document.querySelector('.page-anchors a[href="#source-data"]')?.remove();
+
+      document.querySelectorAll("#financial-forecast .forecast-wide tbody tr").forEach((row) => {
+        if (/projection status/i.test(row.textContent || "")) row.remove();
+      });
+      document.querySelectorAll("#financial-forecast .forecast-compact tr").forEach((row) => {
+        if (row.children.length >= 3) row.lastElementChild.remove();
+      });
+
+      const allCash = record && (record["Debt"] === "$0" || /none|no debt/i.test(record["Lender"] || ""));
+      if (allCash) {
+        const standardizedFinancing = {
+          "Lender":"None (debt-free)",
+          "Interest Rate":"N/A (no debt)",
+          "Loan Term":"N/A (no debt)",
+          "I/O Period":"N/A (no debt)",
+          "Amortization":"N/A (no debt)",
+          "Y1 DSCR":"N/A - no debt service"
+        };
+        document.querySelectorAll("#financing .finance-table tbody tr").forEach((row) => {
+          const label = row.querySelector("th")?.textContent?.trim();
+          if (label && standardizedFinancing[label]) row.querySelector("td").textContent = standardizedFinancing[label];
+        });
+      }
+
+      const documentsTable = document.querySelector("#documents .documents-table");
+      documentsTable?.querySelectorAll("tr").forEach((row) => row.firstElementChild?.remove());
+
+      const anchors = document.querySelector(".page-anchors");
+      if (record && ["Mandatory", "Optional"].includes(record["721 Exchange Exit"])) {
+        const reitSection = document.createElement("section");
+        reitSection.className = "section";
+        reitSection.id = "reit";
+        reitSection.innerHTML = `<h2>721 Exchange and private REIT</h2><div class="reit-section"><p>This offering identifies a ${escapeHtml(record["721 Exchange Exit"])} 721 Exchange exit. A private REIT is a privately offered, non-publicly traded real estate investment trust that may provide a potential continuation strategy after a qualifying contribution, subject to sponsor structure, transaction eligibility, and tax advice.</p><ul class="reit-points"><li><strong>Private structure</strong><br>Shares or interests are not traded on a public exchange.</li><li><strong>Liquidity</strong><br>Redemptions, valuation, transfer rules, and timing are governed by the governing documents and may be limited.</li><li><strong>Professional review</strong><br>A 721 exchange can have complex tax and legal requirements. Review the offering documents with qualified tax and legal professionals.</li></ul></div>`;
+        document.getElementById("financing")?.insertAdjacentElement("afterend", reitSection);
+        anchors?.insertAdjacentHTML("beforeend", '<a href="#reit">721 / REIT</a>');
+      }
+
+    }
+
+    if (record) renderMappedOffering(); else renderUnmappedOffering();
+    applyClientFacingCleanup();
+    insertDynamicFaq();
+    insertInvestmentProfessionalCard();
+    setupOfferingActionBar();
+    setupPageAnchors();
+    setupBookmarkButton();
+  </script>
+  <div data-site-footer></div>
+</body>
+</html>

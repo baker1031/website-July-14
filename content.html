@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Content | Property Exchange</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="navigation.js" defer></script>
+  <script src="footer.js" defer></script>
+  <style>
+    :root { }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:92px; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:"Proxima Nova","Avenir Next",Avenir,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    a,button { font:inherit; }
+    .page { margin:0; max-width:none; padding:0 clamp(22px,5vw,76px) 100px; width:100%; }
+    .content-hero { align-items:end; border-bottom:1px solid var(--line); display:flex; gap:36px; justify-content:space-between; padding:54px 0 44px; }
+    .hero-copy { max-width:850px; }
+    .eyebrow { color:var(--blue); font-size:11px; font-weight:400; letter-spacing:.16em; margin:0 0 15px; text-transform:uppercase; }
+    h1 { font-size:clamp(40px,5.2vw,68px); font-weight:500; letter-spacing:normal; line-height:.96; margin:0; max-width:850px; }
+    .hero-description { color:var(--muted); font-size:17px; line-height:1.6; margin:22px 0 0; max-width:720px; }
+    .content-summary { border-left:3px solid var(--blue); display:grid; gap:4px; max-width:190px; padding-left:15px; }
+    .content-summary strong { font-size:48px; font-weight:500; line-height:.9; }
+    .content-summary span { color:var(--muted); font-size:11px; letter-spacing:.08em; line-height:1.4; text-transform:uppercase; }
+    .content-section { padding-top:42px; }
+    .section-heading { align-items:end; display:flex; justify-content:space-between; margin-bottom:20px; }
+    .section-heading h2 { font-size:26px; font-weight:500; letter-spacing:normal; margin:0; }
+    .section-heading p { color:var(--muted); font-size:12px; margin:0; }
+    .area-grid { display:grid; gap:16px; grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .area-card { border:1px solid var(--line); border-radius:8px; display:flex; flex-direction:column; min-height:220px; padding:22px; transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease; }
+    .area-card:hover { border-color:rgba(76,142,255,.48); box-shadow:0 14px 30px rgba(28,40,59,.08); transform:translateY(-2px); }
+    .area-card-head { align-items:center; display:flex; justify-content:space-between; }
+    .area-index { align-items:center; background:rgba(76,142,255,.1); border:1px solid rgba(76,142,255,.25); border-radius:50%; color:var(--blue); display:flex; font-size:11px; font-weight:700; height:30px; justify-content:center; width:30px; }
+    .area-count { color:var(--muted); font-size:10px; letter-spacing:.08em; text-transform:uppercase; }
+    .area-card h3 { font-size:20px; font-weight:600; letter-spacing:normal; line-height:1.1; margin:22px 0 10px; }
+    .area-card p { color:var(--muted); font-size:14px; line-height:1.6; margin:0; }
+    .area-card-link { color:var(--blue); font-size:12px; font-weight:600; margin-top:auto; padding-top:20px; text-decoration:none; }
+    .area-card-link:hover { text-decoration:underline; text-underline-offset:3px; }
+    .content-note { background:var(--surface); border-left:3px solid var(--blue); border-radius:0 7px 7px 0; color:var(--muted); font-size:14px; line-height:1.6; margin-top:36px; max-width:880px; padding:18px 20px; }
+    .content-note strong { color:var(--ink); font-weight:600; }
+    @media (max-width:900px) {
+      .content-hero { align-items:start; display:block; }
+      .content-summary { margin-top:28px; max-width:240px; }
+      .area-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width:600px) {
+      .header-note { display:none; }
+      .header-content-link { margin-right:0; }
+      .content-hero { padding-top:36px; }
+      .hero-description { font-size:16px; }
+      .area-grid { grid-template-columns:1fr; }
+      .section-heading { align-items:start; flex-direction:column; gap:8px; }
+      .site-footer { align-items:flex-start; flex-direction:column; gap:8px; }
+    }
+  </style>
+</head>
+<body data-site-page="content">
+  <div data-site-navigation></div>
+
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="property-exchange-cards.html#top">Home</a><span aria-hidden="true">/</span><span aria-current="page">Content</span></nav>
+
+  <main class="page">
+    <section class="content-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Content library</p>
+        <h1>Find the guidance for your next decision.</h1>
+        <p class="hero-description">Explore practical education, planning tools, reference materials, and strategy explainers designed to make exchange-related real estate decisions easier to understand.</p>
+      </div>
+      <div class="content-summary"><strong>7</strong><span>Content areas to explore</span></div>
+    </section>
+
+    <section class="content-section" aria-labelledby="available-content-heading">
+      <div class="section-heading"><h2 id="available-content-heading">Explore the content library</h2><p>Placeholder resources · More coming soon</p></div>
+      <div class="area-grid">
+        <article class="area-card"><div class="area-card-head"><span class="area-index">01</span><span class="area-count">7 resources</span></div><h3>Investment Education</h3><p>Plain-language introductions to DSTs, REITs, Opportunity Zone Funds, financing, cash flow, and investment review.</p><a class="area-card-link" href="learning-hub.html?type=Investment%20Education#dst-overview">Explore investment education →</a></article>
+        <article class="area-card"><div class="area-card-head"><span class="area-index">02</span><span class="area-count">3 resources</span></div><h3>1031 Exchange Strategies</h3><p>Guides for understanding exchange mechanics, replacement-property analysis, 721 strategies, deadlines, and professional questions.</p><a class="area-card-link" href="learning-hub.html?type=1031%20Exchange%20Strategies#1031-basics">Explore 1031 strategies →</a></article>
+        <article class="area-card"><div class="area-card-head"><span class="area-index">03</span><span class="area-count">1 resource</span></div><h3>Calculators</h3><p>Planning tools that organize values, dates, assumptions, and scenarios for conversations with your professional advisers.</p><a class="area-card-link" href="learning-hub.html?type=Calculators#exchange-calculator">Explore calculators →</a></article>
+        <article class="area-card"><div class="area-card-head"><span class="area-index">04</span><span class="area-count">1 resource</span></div><h3>Sponsor Profiles</h3><p>Reference material for reviewing sponsor experience, execution, reporting, alignment, fees, and relevant track record.</p><a class="area-card-link" href="learning-hub.html?type=Sponsor%20Profiles#sponsor-diligence">Explore sponsor profiles →</a></article>
+        <article class="area-card"><div class="area-card-head"><span class="area-index">05</span><span class="area-count">1 resource</span></div><h3>Glossary</h3><p>A growing reference for the real estate, financing, exchange, tax, and offering terms investors encounter most often.</p><a class="area-card-link" href="learning-hub.html?type=Glossary#real-estate-glossary">Explore the glossary →</a></article>
+        <article class="area-card"><div class="area-card-head"><span class="area-index">06</span><span class="area-count">1 resource</span></div><h3>FAQ</h3><p>Answers to recurring questions about exchanges, offerings, structures, documents, property diligence, and sponsor review.</p><a class="area-card-link" href="learning-hub.html?type=FAQ#learning-hub-faq">Explore the FAQ →</a></article>
+        <article class="area-card"><div class="area-card-head"><span class="area-index">07</span><span class="area-count">1 resource</span></div><h3>Property Types</h3><p>Guides for understanding how office, healthcare, industrial, multifamily, retail, and specialty properties change the diligence questions.</p><a class="area-card-link" href="learning-hub.html?type=Property%20Types#property-types-overview">Explore property types →</a></article>
+      </div>
+      <div class="content-note"><strong>Built for the questions behind the investment.</strong> Every area will grow into a deeper collection of approved Baker 1031 articles, tools, and resources. For now, the linked materials are clearly marked as placeholders.</div>
+    </section>
+  </main>
+
+  <div data-site-footer></div>
+</body>
+</html>
