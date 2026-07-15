@@ -23,8 +23,10 @@
       if (!match) return;
       const filename = match[1].replace(/^\.\//, "");
       const route = routeMap[filename];
-      if (!route || isLocalFile) return;
-      link.setAttribute("href", `${route}${match[2] || ""}`);
+      const breadcrumbHome = link.closest(".breadcrumbs") && link.textContent.trim() === "Home";
+      const targetRoute = breadcrumbHome ? routeMap["index.html"] : route;
+      if (!targetRoute || isLocalFile) return;
+      link.setAttribute("href", `${targetRoute}${match[2] || ""}`);
     });
   }
 
