@@ -18,6 +18,9 @@
 /.vinext/
 /out/
 
+# Netlify local build output
+/.netlify/
+
 # misc
 .DS_Store
 *.pem
