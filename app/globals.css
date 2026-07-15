@@ -83,7 +83,7 @@ button { cursor: pointer; }
 .cycle-metrics dt { color: var(--muted); font-size: 9px; letter-spacing: .05em; text-transform: uppercase; }
 .cycle-metrics dd { color: var(--ink); font-size: 21px; font-weight: 500; margin: 6px 0 0; }
 
-.about-section { align-items: start; display: grid; gap: clamp(48px, 10vw, 160px); grid-template-columns: minmax(0, 1fr) minmax(280px, 420px); }
+.about-faq-section { align-items: start; display: grid; gap: clamp(48px, 10vw, 160px); grid-template-columns: minmax(0, 1fr) minmax(280px, 420px); }
 .about-copy { max-width: 740px; }
 .about-copy > p:not(.eyebrow) { color: var(--muted); font-size: 17px; line-height: 1.62; margin: 24px 0 0; }
 .text-link { color: var(--blue); display: inline-flex; font-size: 13px; font-weight: 700; gap: 9px; margin-top: 28px; text-decoration: none; }
@@ -117,7 +117,7 @@ button { cursor: pointer; }
   .strategy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cycle-row { grid-template-columns: repeat(3, minmax(260px, 1fr)); min-width: 820px; }
   .cycle-rows { overflow: visible; }
-  .about-section { gap: 52px; grid-template-columns: 1fr; }
+  .about-faq-section { gap: 52px; grid-template-columns: 1fr; }
 }
 
 @media (max-width: 600px) {
