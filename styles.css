@@ -78,6 +78,8 @@ button { cursor:pointer; }
 .about-stat strong { font-size:46px; font-weight:500; line-height:.9; }
 .about-stat span { color:var(--muted); font-size:11px; letter-spacing:.08em; line-height:1.4; text-transform:uppercase; }
 .about-section { border-bottom:1px solid var(--line); padding:46px 0 52px; }
+/* Keep legacy About/Team sections isolated from homepage section utilities. */
+main.about-page .about-section { display:block; }
 .about-section:last-of-type { border-bottom:0; }
 .about-section-heading { align-items:end; display:flex; gap:24px; justify-content:space-between; margin-bottom:22px; }
 .about-section-heading h2 { font-size:30px; font-weight:500; letter-spacing:normal; margin:0; }
