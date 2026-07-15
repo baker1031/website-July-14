@@ -637,7 +637,7 @@ function SelectField({ label, value, onChange, options }: { label: string; value
 export default function CrmApp() {
   const [authenticated, setAuthenticated] = useState(false);
   const [authReady, setAuthReady] = useState(false);
-  const [view, setView] = useState<CrmView>("people");
+  const [view, setView] = useState<CrmView>("dashboard");
   const [people, setPeople] = useState(PEOPLE);
   const [deals, setDeals] = useState(DEALS);
   const [tasks, setTasks] = useState(TASKS);
