@@ -179,10 +179,12 @@
     .directory-actions { align-items: center; display: flex; gap: 8px; }
     .directory-header h1 { margin-top: 3px; }
     .directory-subline { color: var(--muted); font-size: 13px; line-height: 1.4; margin: 7px 0 0; }
-    .directory-toolbar { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 10px 15px; grid-template-columns: minmax(0, 1fr) auto; height: 78px; padding: 0 16px; }
-    .directory-controls { align-items: center; display: flex; flex: 1 1 520px; flex-wrap: wrap; gap: 8px; }
+    .directory-toolbar { align-items: center; border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 10px 15px; min-height: 78px; padding: 16px; }
+    .directory-controls { align-items: center; display: flex; flex: 1 1 720px; flex-wrap: wrap; gap: 8px; min-width: 0; }
     .directory-search, .directory-filter { background: var(--paper); border: 1px solid var(--line); box-sizing: border-box; color: var(--ink); font-size: 12px; height: 38px; line-height: 1.2; padding: 0 10px; }
-    .directory-search { min-width: 230px; }
+    .directory-search { flex: 1 1 250px; min-width: 210px; }
+    .directory-filter { flex: 0 1 180px; min-width: 135px; }
+    .directory-controls .outline-button { flex: 0 0 auto; white-space: nowrap; }
     .directory-count { color: var(--muted); font-size: 10px; white-space: nowrap; }
     .directory-controls .directory-filter.saved-view { min-width: 160px; }
     .bulk-toolbar { align-items: center; background: var(--soft-blue); border-bottom: 1px solid rgba(76,142,255,.2); display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 16px; }
@@ -332,6 +334,10 @@
     .duplicate-record strong { display: block; font-size: 11px; }
     .duplicate-record small { color: var(--muted); display: block; font-size: 10px; line-height: 1.35; margin-top: 3px; }
     .duplicate-actions { display: flex; gap: 8px; margin-top: 11px; }
+    .offering-summary { display: grid; gap: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .offering-summary > div { background: var(--paper); border: 1px solid var(--line); min-height: 78px; padding: 12px; }
+    .offering-summary strong { display: block; font-size: 12px; }
+    .offering-summary small { color: var(--muted); display: block; font-size: 10px; line-height: 1.4; margin-top: 5px; }
     .detail-toolbar { align-items: center; display: flex; justify-content: space-between; }
     .back-link { color: #2167bf; font-size: 11px; font-weight: 700; text-decoration: none; }
     .back-link:hover { color: var(--blue); }
@@ -589,6 +595,7 @@
     .meeting-status.past { color: var(--muted); font-weight: 400; }
     .record-table-wrap { overflow-x: auto; }
     .record-table { border-collapse: collapse; min-width: 620px; width: 100%; }
+    .offerings-table { min-width: 900px; }
     .record-table th { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .04em; padding: 0 10px 10px; text-align: left; text-transform: uppercase; }
     .record-table td { border-top: 1px solid var(--line); font-size: 11px; padding: 12px 10px; vertical-align: top; }
     .record-table th:first-child, .record-table td:first-child { padding-left: 0; }
@@ -720,9 +727,10 @@
       .connection-grid { grid-template-columns: 1fr; }
       .report-grid, .stage-config { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .duplicate-records { grid-template-columns: 1fr; }
-      .directory-toolbar { grid-template-columns: 1fr; height: auto; padding: 18px 16px; }
+      .directory-toolbar { align-items: stretch; flex-direction: column; height: auto; padding: 18px 16px; }
       .directory-controls { align-items: stretch; flex-direction: column; }
       .directory-search, .directory-filter { min-width: 0; width: 100%; }
+      .offering-summary { grid-template-columns: 1fr 1fr; }
       .detail-toolbar, .opportunity-detail-header { align-items: flex-start; flex-direction: column; }
       .opportunity-detail-grid { grid-template-columns: 1fr; }
       .detail-actions { width: 100%; }
@@ -743,6 +751,7 @@
       .report-funnel-row { grid-template-columns: 105px 1fr 30px; }
     }
     @media (max-width: 430px) {
+      .offering-summary { grid-template-columns: 1fr; }
       .field-grid { grid-template-columns: 1fr; }
       .field-wide { grid-column: auto; }
       .tabs { overflow-x: auto; }
@@ -986,6 +995,15 @@
             <section class="card" aria-labelledby="account-profile-title"><div class="card-header"><h2 id="account-profile-title">Profile</h2><a href="#edit-account" data-toast="Account editing is coming next">Edit</a></div><div class="card-body"><div class="profile-card"><span class="profile-avatar">JB</span><div><strong>Jerry Baker</strong><small>Administrator · Baker 1031</small></div></div><hr class="section-rule"><dl class="field-grid"><div class="field"><dt>Role</dt><dd>Administrator</dd></div><div class="field"><dt>Workspace</dt><dd>Baker 1031 CRM</dd></div><div class="field"><dt>Access</dt><dd>Full workspace access</dd></div><div class="field"><dt>Session</dt><dd>Protected demo session</dd></div></dl></div></section>
             <section class="card" aria-labelledby="account-security-title"><div class="card-header"><h2 id="account-security-title">Security</h2></div><div class="card-body"><div class="setting-copy"><strong>Password protection</strong><small>This prototype is currently protected by the temporary password configured for this workspace.</small></div><button class="outline-button" id="lock-crm" type="button" style="margin-top:15px">Lock CRM</button><p class="placeholder-note">Production security should use server-side authentication, secure sessions, and role-based access controls.</p></div></section>
           </div>
+        </section>
+
+        <section class="workspace-view" id="offerings" aria-labelledby="offerings-title" hidden>
+          <div class="directory-header">
+            <div><p class="eyebrow">Workspace / Offerings</p><h1 id="offerings-title">Investment offerings</h1><p class="directory-subline">See which investment pages were shared, who accessed them, what documents they viewed, and how each person responded.</p></div>
+            <div class="directory-actions"><button class="primary-button" type="button" data-toast="Offering creation is ready for connected data">＋ New offering</button></div>
+          </div>
+          <section class="card" aria-labelledby="offerings-explainer-title"><div class="card-header"><h2 id="offerings-explainer-title">What Offerings tracks</h2></div><div class="card-body"><div class="offering-summary"><div><strong>Access</strong><small>Whether the person opened the offering page.</small></div><div><strong>Feedback</strong><small>Thumbs up, thumbs down, or Invested.</small></div><div><strong>Documents viewed</strong><small>Which offering documents they opened.</small></div><div><strong>Related Deal</strong><small>The exchange or cash investment it supports.</small></div></div></div></section>
+          <section class="card" aria-labelledby="offering-activity-title"><div class="card-header"><h2 id="offering-activity-title">Offering activity</h2><span class="directory-count">4 offerings</span></div><div class="directory-toolbar"><div class="directory-controls"><input class="directory-search" id="offering-search" type="search" placeholder="Search offerings or sponsors…" aria-label="Search offerings or sponsors"></div></div><div class="record-table-wrap"><table class="record-table offerings-table"><thead><tr><th>Investment offering</th><th>Person</th><th>Related Deal</th><th>Access</th><th>Feedback</th><th>Documents viewed</th></tr></thead><tbody id="workspace-offering-body"><tr><td><a class="offering-link" href="https://www.baker1031.com/" target="_blank" rel="noreferrer">Open offering page ↗</a><strong>Juniper Commons</strong><small>Olivia Chen · Cash investment</small></td><td>Olivia Chen</td><td>Juniper Commons</td><td>Viewed Jul 8</td><td><span class="feedback-pill up">👍 Thumbs up</span></td><td class="doc-list"><strong>2 viewed</strong><br>Investment Summary, PPM</td></tr><tr><td><a class="offering-link" href="https://www.baker1031.com/" target="_blank" rel="noreferrer">Open offering page ↗</a><strong>Harborlight Logistics</strong><small>Eric · Cash investment</small></td><td>Eric</td><td>Harborlight Logistics</td><td>Viewed Jun 28</td><td><span class="feedback-pill invested">Invested</span></td><td class="doc-list"><strong>3 viewed</strong><br>PPM, Financials, Subscription</td></tr><tr><td><a class="offering-link" href="https://www.baker1031.com/" target="_blank" rel="noreferrer">Open offering page ↗</a><strong>Industrial replacement shortlist</strong><small>Eric · 1031 exchange</small></td><td>Eric</td><td>Canyon Ridge Apartments</td><td>Viewed Jul 10</td><td><span class="feedback-pill up">👍 Thumbs up</span></td><td class="doc-list"><strong>4 viewed</strong><br>Summary, PPM, Financials, Map</td></tr><tr><td><a class="offering-link" href="https://www.baker1031.com/" target="_blank" rel="noreferrer">Open offering page ↗</a><strong>Cedar &amp; Fifth</strong><small>Maya Patel · 1031 exchange</small></td><td>Maya Patel</td><td>Copper Mesa Apartments</td><td>Not viewed</td><td><span class="feedback-pill down">Not reviewed</span></td><td class="doc-list"><strong>0 viewed</strong><br>None</td></tr></tbody></table></div><p class="placeholder-note">Use this workspace to connect an offering page to the person and underlying Deal, then record engagement without mixing it into the person’s general timeline.</p></section>
         </section>
 
         <section class="workspace-view" id="workspace-placeholder" aria-labelledby="placeholder-title" hidden>
@@ -1369,6 +1387,7 @@
     const settingsView = document.querySelector("#settings");
     const accountView = document.querySelector("#account");
     const reportsView = document.querySelector("#reports");
+    const offeringsView = document.querySelector("#offerings");
     const placeholderView = document.querySelector("#workspace-placeholder");
     const personViewElements = [...document.querySelectorAll(".record-header, .tabs, .record-layout")];
     const viewBreadcrumb = document.querySelector(".breadcrumbs a");
@@ -1427,6 +1446,7 @@
       settingsView.hidden = true;
       accountView.hidden = true;
       reportsView.hidden = true;
+      offeringsView.hidden = true;
       placeholderView.hidden = true;
       personViewElements.forEach((item) => { item.hidden = true; });
     }
@@ -1521,6 +1541,8 @@
     function showAccountView({ updateUrl = true } = {}) { showWorkspaceView(accountView, "Account", "#account", "Jerry Baker", { updateUrl }); }
     function showReportsView({ updateUrl = true } = {}) { renderReports(); showWorkspaceView(reportsView, "Reports", "#reports", "Analytics", { updateUrl }); }
 
+    function showOfferingsView({ updateUrl = true } = {}) { showWorkspaceView(offeringsView, "Offerings", "#offerings", "Investment activity", { updateUrl }); }
+
     function showPlaceholderView(label, hash, description) {
       hideAllViews();
       placeholderView.hidden = false;
@@ -1553,6 +1575,7 @@
           "#messages": ["Messages", "A shared inbox and message workspace for future Gmail and CRM communication workflows."],
           "#offerings": ["Offerings", "A workspace for investment offerings, portal access, and document views."]
         };
+        if (targetHash === "#offerings") return showOfferingsView();
         if (placeholders[targetHash]) return showPlaceholderView(placeholders[targetHash][0], targetHash, placeholders[targetHash][1]);
         setActiveNavigation(targetHash);
         return;
@@ -2073,6 +2096,14 @@
     });
     renderDuplicateReview();
 
+    const offeringSearch = document.querySelector("#offering-search");
+    offeringSearch?.addEventListener("input", () => {
+      const query = offeringSearch.value.toLowerCase().trim();
+      document.querySelectorAll("#workspace-offering-body tr").forEach((row) => {
+        row.hidden = query && !row.textContent.toLowerCase().includes(query);
+      });
+    });
+
     if (window.location.hash === "#all-people") showPeopleView({ updateUrl: false });
     else if (window.location.hash === "#all-opportunities") showOpportunityView("all", { updateUrl: false });
     else if (window.location.hash === "#all-exchanges") showOpportunityView("exchanges", { updateUrl: false });
@@ -2084,7 +2115,7 @@
     else if (window.location.hash === "#account") showAccountView({ updateUrl: false });
     else if (window.location.hash === "#messages") showPlaceholderView("Messages", "#messages", "A shared inbox and message workspace for future Gmail and CRM communication workflows.");
     else if (window.location.hash === "#reports") showReportsView({ updateUrl: false });
-    else if (window.location.hash === "#offerings") showPlaceholderView("Offerings", "#offerings", "A workspace for investment offerings, portal access, and document views.");
+    else if (window.location.hash === "#offerings") showOfferingsView({ updateUrl: false });
 
     document.addEventListener("click", (event) => {
       const toastTarget = event.target.closest("[data-toast]");

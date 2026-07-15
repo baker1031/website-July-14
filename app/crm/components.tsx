@@ -41,17 +41,17 @@ type ModalKind = "contact" | "deal" | "task" | "edit-deal" | null;
 const REFERENCE_DATE = new Date("2026-07-14T12:00:00Z");
 
 const WORKSPACE_NAV: Array<{ view: CrmView; label: string; icon: string }> = [
-  { view: "dashboard", label: "Dashboard", icon: "▦" },
-  { view: "people", label: "People", icon: "♙" },
-  { view: "deals", label: "Deals", icon: "▣" },
-  { view: "tasks", label: "Tasks", icon: "✓" },
-  { view: "calendar", label: "Calendar", icon: "▤" },
-  { view: "offerings", label: "Offerings", icon: "▧" },
+  { view: "dashboard", label: "Dashboard", icon: "dashboard" },
+  { view: "people", label: "People", icon: "people" },
+  { view: "deals", label: "Deals", icon: "deals" },
+  { view: "tasks", label: "Tasks", icon: "tasks" },
+  { view: "calendar", label: "Calendar", icon: "calendar" },
+  { view: "offerings", label: "Offerings", icon: "offerings" },
 ];
 
 const MANAGE_NAV: Array<{ view: CrmView; label: string; icon: string }> = [
-  { view: "reports", label: "Reports", icon: "▥" },
-  { view: "settings", label: "Settings", icon: "⚙" },
+  { view: "reports", label: "Reports", icon: "reports" },
+  { view: "settings", label: "Settings", icon: "settings" },
 ];
 
 function initials(name: string) {
@@ -114,8 +114,18 @@ function statusClass(value: string) {
   return "";
 }
 
-function Icon({ children }: { children: ReactNode }) {
-  return <span className="nav-icon" aria-hidden="true">{children}</span>;
+function Icon({ name }: { name: string }) {
+  const icons: Record<string, ReactNode> = {
+    dashboard: <><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></>,
+    people: <><circle cx="12" cy="8" r="3.2" /><path d="M5 21c.7-3.5 3-5.3 7-5.3s6.3 1.8 7 5.3" /></>,
+    deals: <><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7V4h8v3M3 12h18M10 12v2h4v-2" /></>,
+    tasks: <><rect x="5" y="3" width="14" height="18" rx="2" /><path d="m8 12 2.5 2.5L16 9" /></>,
+    calendar: <><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M7 3v4M17 3v4M3 10h18M7 14h.01M12 14h.01M17 14h.01M7 18h.01M12 18h.01" /></>,
+    offerings: <><path d="M5 3h9l5 5v13H5z" /><path d="M14 3v6h5M8 13h8M8 17h6" /></>,
+    reports: <><path d="M5 20V11M12 20V6M19 20V3M3 20h18" /></>,
+    settings: <><path d="M9.2 3h5.6l.7 3a7.5 7.5 0 0 1 1.8 1l2.7-1 2.8 4.8-2.2 2a7.5 7.5 0 0 1 0 2.1l2.2 2-2.8 4.8-2.7-1a7.5 7.5 0 0 1-1.8 1l-.7 3H9.2l-.7-3a7.5 7.5 0 0 1-1.8-1l-2.7 1-2.8-4.8 2.2-2a7.5 7.5 0 0 1 0-2.1l-2.2-2 2.8-4.8 2.7 1a7.5 7.5 0 0 1 1.8-1z" /><circle cx="12" cy="13" r="2.5" /></>,
+  };
+  return <span className="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24">{icons[name]}</svg></span>;
 }
 
 function Card({
@@ -207,7 +217,7 @@ function AuthGate({ onUnlock }: { onUnlock: () => void }) {
 function Sidebar({ view, navigate, onAccount }: { view: CrmView; navigate: (view: CrmView) => void; onAccount: () => void }) {
   const links = (items: Array<{ view: CrmView; label: string; icon: string }>) => items.map((item) => (
     <a key={item.view} href={`#${item.view}`} className={view === item.view || (view === "person" && item.view === "people") || (view === "deal" && item.view === "deals") ? "active" : ""} onClick={(event) => { event.preventDefault(); navigate(item.view); }}>
-      <Icon>{item.icon}</Icon><span>{item.label}</span>
+      <Icon name={item.icon} /><span>{item.label}</span>
     </a>
   ));
 
@@ -587,7 +597,7 @@ function CalendarView({ meetings, people, deals, onNoShow, onToast }: { meetings
 function OfferingsView({ offerings, deals, people, onToast }: { offerings: Offering[]; deals: Deal[]; people: Person[]; onToast: (message: string) => void }) {
   const [search, setSearch] = useState("");
   const visible = offerings.filter((offering) => `${offering.name} ${offering.sponsor} ${offering.type}`.toLowerCase().includes(search.toLowerCase().trim()));
-  return <section className="workspace-view"><PageHeader eyebrow="Workspace / Offerings" title="Offerings" subline="Track each person’s access, interest, feedback, and document views." actions={<button className="primary-button" type="button" onClick={() => onToast("Offering creation is ready for connected data")}>＋ New offering</button>} /><Card title="Offering directory" actions={<span className="directory-count">{visible.length} offerings</span>}><div className="workspace-toolbar"><div className="workspace-controls"><input className="directory-search" type="search" placeholder="Search offerings or sponsors…" value={search} onChange={(event) => setSearch(event.target.value)} /></div></div><div className="record-table-wrap"><table className="record-table"><thead><tr><th>Offering</th><th>Person</th><th>Tied to Deal</th><th>Access</th><th>Feedback</th><th>Documents viewed</th></tr></thead><tbody>{visible.map((offering) => <tr key={offering.id}><td><a className="offering-link" href={offering.url} target="_blank" rel="noreferrer">{offering.name} ↗</a><small>{offering.sponsor} · {offering.type}</small></td><td>{people.find((person) => person.id === offering.personId)?.name}</td><td>{deals.find((deal) => deal.id === offering.dealId)?.name}</td><td>{offering.status}</td><td><span className={`feedback-pill ${offering.feedback === "Invested" ? "invested" : offering.feedback === "Thumbs up" ? "up" : "down"}`}>{offering.feedback}</span></td><td className="doc-list">{offering.viewed.join(" · ")}</td></tr>)}</tbody></table></div></Card></section>;
+  return <section className="workspace-view"><PageHeader eyebrow="Workspace / Offerings" title="Investment offerings" subline="See which investment pages were shared, who accessed them, what documents they viewed, and how each person responded." actions={<button className="primary-button" type="button" onClick={() => onToast("Offering creation is ready for connected data")}>＋ New offering</button>} /><Card title="What Offerings tracks"><div className="offering-summary"><div><strong>Access</strong><small>Whether the person opened the offering page.</small></div><div><strong>Feedback</strong><small>Thumbs up, thumbs down, or Invested.</small></div><div><strong>Documents viewed</strong><small>Which offering documents they opened.</small></div><div><strong>Related Deal</strong><small>The exchange or cash investment it supports.</small></div></div></Card><Card title="Offering activity" actions={<span className="directory-count">{visible.length} offerings</span>}><div className="workspace-toolbar"><div className="workspace-controls"><input className="directory-search" type="search" placeholder="Search offerings or sponsors…" value={search} onChange={(event) => setSearch(event.target.value)} /></div></div><div className="record-table-wrap"><table className="record-table offerings-table"><thead><tr><th>Investment offering</th><th>Person</th><th>Related Deal</th><th>Access</th><th>Feedback</th><th>Documents viewed</th></tr></thead><tbody>{visible.map((offering) => <tr key={offering.id}><td><a className="offering-link" href={offering.url} target="_blank" rel="noreferrer">Open offering page ↗</a><strong>{offering.name}</strong><small>{offering.sponsor} · {offering.type}</small></td><td>{people.find((person) => person.id === offering.personId)?.name}</td><td>{deals.find((deal) => deal.id === offering.dealId)?.name}</td><td>{offering.status}</td><td><span className={`feedback-pill ${offering.feedback === "Invested" ? "invested" : offering.feedback === "Thumbs up" ? "up" : "down"}`}>{offering.feedback}</span></td><td className="doc-list">{offering.viewed.join(" · ")}</td></tr>)}</tbody></table></div>{!visible.length ? <p className="workspace-empty">No offerings match your search.</p> : null}</Card></section>;
 }
 
 function ReportsView({ people, deals, onToast }: { people: Person[]; deals: Deal[]; onToast: (message: string) => void }) {
