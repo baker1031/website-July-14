@@ -424,7 +424,9 @@
       ltv: { min:Math.min(...properties.map((property) => parseFloat(property.ltv))), max:Math.max(...properties.map((property) => parseFloat(property.ltv))), step:1 }
     };
     const filterState = { statuses:new Set(), exchange721:new Set(), sponsors:new Set(), types:new Set(), states:new Set(), yieldMin:rangeBounds.yield.min, yieldMax:rangeBounds.yield.max, capMin:rangeBounds.cap.min, capMax:rangeBounds.cap.max, ltvMin:rangeBounds.ltv.min, ltvMax:rangeBounds.ltv.max };
-    let activeOffering = "ALL";
+    const requestedOffering = new URLSearchParams(window.location.search).get("offering");
+    const supportedOfferings = new Set(["DST", "Opportunity Zone Fund", "REIT"]);
+    let activeOffering = supportedOfferings.has(requestedOffering) ? requestedOffering : "ALL";
     let sortMode = "status";
     let visible = pageSize;
     const bookmarkStateKey = "property-exchange-bookmarks-v1";
@@ -742,6 +744,7 @@
     }
 
     buildFilters();
+    document.querySelectorAll(".offering-tab").forEach((tab) => tab.setAttribute("aria-selected", String(activeOffering === "ALL" ? tab.dataset.view === "all" : tab.dataset.offering === activeOffering)));
     sizeGrid();
     window.addEventListener("resize", sizeGrid);
     ["statuses", "exchange721", "sponsors", "types", "states", "yield", "cap", "ltv"].forEach(updateSummary);
